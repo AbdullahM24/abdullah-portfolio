@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth antialiased" data-theme="dark" data-color="sky" data-font="sans" data-layout="split">
 <head>
@@ -24,33 +25,45 @@
 
     <style>
         :root {
-            --bg: #0f172a; --surface: rgba(30, 41, 59, 0.75); --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8;
-            --accent: #0ea5e9; --accent-light: rgba(14, 165, 233, 0.15);
+            /* Fallback fonts & sizing */
             --font-main: 'Inter', sans-serif; --font-heading: 'Outfit', sans-serif;
-            --base-size: 16px; /* Dynamic Font Size Variable */
+            --base-size: 16px; 
         }
 
-        html { font-size: var(--base-size); transition: font-size 0.3s ease; }
+        /* --- DYNAMIC CORPORATE COLOR THEMES (Full UI Contrast) --- */
+        
+        /* SKY (Corporate Blue - Trust, IT) */
+        [data-theme="dark"][data-color="sky"] { --bg: #0B1121; --surface: rgba(30, 41, 59, 0.75); --border: #334155; --text-main: #F8FAFC; --text-muted: #94A3B8; --accent: #0EA5E9; --accent-light: rgba(14, 165, 233, 0.15); }
+        [data-theme="light"][data-color="sky"] { --bg: #F0F9FF; --surface: rgba(255, 255, 255, 0.85); --border: #BAE6FD; --text-main: #0F172A; --text-muted: #475569; --accent: #0284C7; --accent-light: rgba(2, 132, 199, 0.15); }
 
-        /* --- COLORS --- */
-        [data-color="sky"] { --accent: #0ea5e9; --accent-light: rgba(14, 165, 233, 0.15); }
-        [data-color="emerald"] { --accent: #10b981; --accent-light: rgba(16, 185, 129, 0.15); }
-        [data-color="violet"] { --accent: #8b5cf6; --accent-light: rgba(139, 92, 246, 0.15); }
-        [data-color="rose"] { --accent: #f43f5e; --accent-light: rgba(244, 63, 94, 0.15); }
-        [data-color="amber"] { --accent: #f59e0b; --accent-light: rgba(245, 158, 11, 0.15); }
+        /* EMERALD (Finance, Growth, Data) */
+        [data-theme="dark"][data-color="emerald"] { --bg: #022C22; --surface: rgba(6, 78, 59, 0.65); --border: #047857; --text-main: #ECFDF5; --text-muted: #6EE7B7; --accent: #10B981; --accent-light: rgba(16, 185, 129, 0.15); }
+        [data-theme="light"][data-color="emerald"] { --bg: #ECFDF5; --surface: rgba(255, 255, 255, 0.85); --border: #A7F3D0; --text-main: #064E3B; --text-muted: #047857; --accent: #059669; --accent-light: rgba(5, 150, 105, 0.15); }
 
-        /* --- LIGHT/DARK MODE --- */
-        [data-theme="light"] { --bg: #f8fafc; --surface: rgba(255, 255, 255, 0.85); --border: #e2e8f0; --text-main: #0f172a; --text-muted: #475569; }
-        [data-theme="dark"] { --bg: #0f172a; --surface: rgba(30, 41, 59, 0.75); --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8; }
+        /* VIOLET (Tech, Creative, AI) */
+        [data-theme="dark"][data-color="violet"] { --bg: #170F2E; --surface: rgba(46, 16, 101, 0.65); --border: #5B21B6; --text-main: #F5F3FF; --text-muted: #C4B5FD; --accent: #8B5CF6; --accent-light: rgba(139, 92, 246, 0.15); }
+        [data-theme="light"][data-color="violet"] { --bg: #F5F3FF; --surface: rgba(255, 255, 255, 0.85); --border: #DDD6FE; --text-main: #2E1065; --text-muted: #5B21B6; --accent: #7C3AED; --accent-light: rgba(124, 58, 237, 0.15); }
+
+        /* ROSE (Leadership, Bold, Action) */
+        [data-theme="dark"][data-color="rose"] { --bg: #2A0A12; --surface: rgba(76, 5, 25, 0.65); --border: #9F1239; --text-main: #FFF1F2; --text-muted: #FDA4AF; --accent: #F43F5E; --accent-light: rgba(244, 63, 94, 0.15); }
+        [data-theme="light"][data-color="rose"] { --bg: #FFF1F2; --surface: rgba(255, 255, 255, 0.85); --border: #FECDD3; --text-main: #4C0519; --text-muted: #9F1239; --accent: #E11D48; --accent-light: rgba(225, 29, 72, 0.15); }
+
+        /* AMBER (Warm, Energetic, Welcoming) */
+        [data-theme="dark"][data-color="amber"] { --bg: #271C04; --surface: rgba(69, 26, 3, 0.65); --border: #B45309; --text-main: #FFFBEB; --text-muted: #FCD34D; --accent: #F59E0B; --accent-light: rgba(245, 158, 11, 0.15); }
+        [data-theme="light"][data-color="amber"] { --bg: #FFFBEB; --surface: rgba(255, 255, 255, 0.85); --border: #FDE68A; --text-main: #451A03; --text-muted: #B45309; --accent: #D97706; --accent-light: rgba(217, 119, 6, 0.15); }
 
         /* --- TYPOGRAPHY --- */
         [data-font="sans"] { --font-main: 'Inter', sans-serif; --font-heading: 'Outfit', sans-serif; }
         [data-font="serif"] { --font-main: 'Merriweather', serif; --font-heading: 'Merriweather', serif; }
         [data-font="mono"] { --font-main: 'JetBrains Mono', monospace; --font-heading: 'JetBrains Mono', monospace; }
 
-        body { background-color: var(--bg); color: var(--text-main); font-family: var(--font-main); transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; min-height: 100vh;}
+        html { font-size: var(--base-size); transition: font-size 0.3s ease; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: var(--font-main); transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; min-height: 100vh;}
         h1, h2, h3, h4, .font-heading { font-family: var(--font-heading); }
         .font-numbers { font-family: 'Space Grotesk', sans-serif; }
+
+        /* Smooth UI Transitions */
+        .dash-panel, .milestone-node, input, button { transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease; }
 
         /* --- LAYOUT OVERRIDES --- */
         [data-layout="stacked"] #main-grid { display: flex; flex-direction: column; }
@@ -60,13 +73,13 @@
 
         .dash-panel { 
             background-color: var(--surface); backdrop-filter: blur(12px); border: 1px solid var(--border); 
-            border-radius: 1.25rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-            transition: transform 0.3s, border-color 0.3s; position: relative; z-index: 10;
+            border-radius: 1.25rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); 
+            position: relative; z-index: 10;
         }
-        [data-theme="dark"] .dash-panel { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
+        [data-theme="dark"] .dash-panel { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
         .dash-panel:hover { border-color: var(--accent); transform: translateY(-2px); }
 
-        .milestone-node { position: relative; padding-left: 1.75rem; border-left: 2px solid var(--border); padding-bottom: 2rem; transition: all 0.3s; cursor: pointer;}
+        .milestone-node { position: relative; padding-left: 1.75rem; border-left: 2px solid var(--border); padding-bottom: 2rem; cursor: pointer;}
         .milestone-node:hover { background: var(--accent-light); border-radius: 0 1rem 1rem 0; }
         .milestone-node::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); transition: all 0.3s ease; }
         .milestone-node:hover::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 10px var(--accent); transform: scale(1.3); }
@@ -77,7 +90,8 @@
         .tech-tag:hover { color: var(--text-main); }
         .tech-tag .glass-tooltip {
             visibility: hidden; opacity: 0; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) translateY(10px);
-            background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--accent); padding: 12px; border-radius: 8px; width: 260px;
+            background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--accent); padding: 12px; border-radius: 8px; 
+            width: max-content; max-width: 85vw; white-space: normal; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100; transition: all 0.3s; pointer-events: none; text-align: left; color: var(--text-main); font-size: 12px; font-weight: normal; line-height: 1.5;
         }
         .tech-tag:hover .glass-tooltip { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -85,15 +99,15 @@
         .action-menu { transform: scale(0.95); opacity: 0; transition: all 0.2s ease; pointer-events: none; }
         .action-menu.active { transform: scale(1); opacity: 1; pointer-events: auto; }
 
-        /* Chat UI */
+        /* Chat UI - Updated for Avatar Alignment */
         .chat-container { display: flex; flex-direction: column; height: 100%; padding: 15px; }
-        .chat-log { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; padding-right: 5px;}
-        .chat-msg { padding: 12px 16px; border-radius: 12px; max-width: 85%; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;}
-        .chat-user { background: var(--accent); color: white; align-self: flex-end; border-bottom-right-radius: 2px;}
-        .chat-ai { background: rgba(255,255,255,0.1); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid var(--border);}
+        .chat-log { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 5px;}
+        .chat-msg { padding: 12px 16px; border-radius: 12px; width: 100%; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;}
+        .chat-user { background: var(--accent); color: white; border-bottom-right-radius: 2px;}
+        .chat-ai { background: rgba(255,255,255,0.1); color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid var(--border);}
         [data-theme="light"] .chat-ai { background: rgba(0,0,0,0.05); }
 
-        /* Arcade Menu */
+        /* Arcade Menu Mobile Fixed */
         #arcade-menu { transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;}
         #arcade-menu.active { transform: translateY(0); }
 
@@ -103,7 +117,7 @@
         /* Game Elements */
         .data-node { position: absolute; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); cursor: crosshair; animation: popIn 0.2s forwards; }
         .bug-node { position: absolute; font-size: 32px; cursor: crosshair; user-select: none; animation: floatBug 1.5s infinite alternate; }
-        .imposter-grid { display: grid; gap: 5px; width: 100%; height: 100%; padding: 20px; justify-items: center; align-items: center; }
+        .imposter-grid { display: grid; gap: 5px; width: 100%; height: 100%; padding: 10px; justify-items: center; align-items: center; }
         .imposter-cell { display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; transition: transform 0.1s;}
         .imposter-cell:active { transform: scale(0.8); }
         
@@ -112,6 +126,111 @@
 
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+        @media screen { #print-resume { display: none !important; } }
+        @media print {
+            @page { margin: 0; size: A4 portrait; }
+            body { 
+                background: #ffffff !important; color: #1e293b !important; font-size: 10.5pt; font-family: 'Inter', sans-serif !important; line-height: 1.45; 
+                padding: 0.6in 0.75in;
+            }
+            .no-print, #web-dashboard, #ai-chat-overlay, #minigame-overlay, #arcade-menu, .fixed { display: none !important; }
+            
+            #print-resume { display: block !important; width: 100%; max-width: 100%; position: relative; min-height: 100%; padding-bottom: 30px;}
+            
+            h1, h2, h3 { font-family: 'Inter', sans-serif !important; color: #003366 !important; margin: 0; }
+            h1 { font-size: 26pt; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; color: #003366 !important; margin-bottom: 4px; text-align: center;}
+            .print-role { text-align: center; font-size: 12pt; font-weight: 600; color: #475569 !important; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+            .print-contact { display: flex; justify-content: center; gap: 16px; font-size: 9.5pt; color: #334155 !important; border-bottom: 3px solid #003366; padding-bottom: 14px; margin-bottom: 18px;}
+            .print-contact span { display: flex; align-items: center; }
+            .print-contact span::after { content: '•'; color: #003366; margin-left: 16px; font-weight: 900; }
+            .print-contact span:last-child::after { display: none; }
+            .print-section { margin-bottom: 18px; break-inside: avoid; }
+            .print-section h2 { font-size: 11pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #003366 !important; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 10px; }
+            .print-item { margin-bottom: 12px; break-inside: avoid; }
+            .print-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+            .print-item-title { font-size: 10.5pt; font-weight: 700; color: #0f172a !important; }
+            .print-item-date { font-size: 9.5pt; font-weight: 600; color: #003366 !important; }
+            .print-item-subtitle { font-size: 10pt; font-weight: 500; color: #475569 !important; margin-bottom: 4px; font-style: italic;}
+            p { margin-bottom: 6px; text-align: justify; }
+            ul { padding-left: 1.25rem; margin-top: 4px; margin-bottom: 0; list-style-type: square; }
+            li { margin-bottom: 4px; text-align: justify; }
+            .print-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; font-size: 10pt; }
+            .skill-label { color: #003366 !important; font-weight: 700; display: block; margin-bottom: 2px; font-size: 10pt; text-transform: capitalize;}
+            
+            .print-footer { position: fixed; bottom: 0.3in; left: 0.75in; right: 0.75in; text-align: center; font-size: 8pt; color: #64748b; padding-top: 8px; border-top: 1px solid #e2e8f0; font-family: 'Inter', sans-serif !important;}
+        }
+
+        body.locked { overflow: hidden; }
+    </style>
+</head>
+<body class="custom-scrollbar locked">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 z-[1000] hidden items-center gap-2 bg-theme-accent text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm translate-y-[-20px] opacity-0 transition-all duration-300 no-print">
+        <span id="toast-message">Copied!</span>
+    </div>
+
+    <!-- ATS Nova Double Check Overlay -->
+    <div id="print-overlay" class="fixed inset-0 z-[9999] hidden flex-col items-center justify-center bg-theme-bg/95 backdrop-blur-xl transition-opacity duration-300 opacity-0 no-print">
+        <div class="text-6xl mb-4 animate-bounce">👧🏻</div>
+        <h2 class="text-2xl font-heading font-bold text-theme-textMain mb-2" id="print-greeting">Hold on! Nova is checking...</h2>
+        <div class="w-64 h-2 bg-theme-border rounded-full mt-4 overflow-hidden">
+            <div id="print-progress-bar" class="h-full bg-theme-accent w-0 transition-all duration-[2000ms] ease-out"></div>
+        </div>
+        <p class="text-theme-accent font-mono text-sm mt-4" id="print-status">Scanning document for ATS optimization...</p>
+    </div>
+
+    <!-- PRE-ENTRY ONBOARDING -->
+    <div id="onboarding-overlay" class="fixed inset-0 z-[500] flex items-center justify-center transition-opacity duration-700">
+        <div class="dash-panel p-8 md:p-10 max-w-xl w-[90%] text-center shadow-2xl border-2 border-theme-accent/30">
+            <div class="w-20 h-20 bg-theme-surface border-4 border-theme-accent rounded-full flex items-center justify-center text-4xl shadow-[0_0_30px_var(--accent-light)] mx-auto mb-6 animate-pulse">👧🏻</div>
+            <h2 class="text-3xl font-heading font-bold tracking-wide mb-2 text-theme-textMain">Hello, I'm Nova!</h2>
+            <p class="text-theme-textMuted text-sm mb-6 font-medium">I'm Abdullah's digital assistant. To tailor this portfolio perfectly for you, please tell me who you are.</p>
+            
+            <div class="flex flex-col gap-3 max-w-md mx-auto">
+                <input type="text" id="visitor-name-input" class="w-full p-4 bg-theme-bg border border-theme-border rounded-xl text-theme-textMain outline-none focus:border-theme-accent focus:ring-1 focus:ring-theme-accent transition text-center" placeholder="Your Name" autocomplete="off">
+                <input type="text" id="industry-input" class="w-full p-4 bg-theme-bg border border-theme-border rounded-xl text-theme-textMain outline-none focus:border-theme-accent focus:ring-1 focus:ring-theme-accent transition text-center" placeholder="Your Industry (e.g., HR, Tech, Finance)" autocomplete="off">
+                <button onclick="calibrateSystem()" class="w-full mt-2 py-4 bg-theme-accent text-white font-bold rounded-xl shadow-lg hover:opacity-90 transition transform hover:scale-[1.02]">Initialize Portfolio</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING UI CONTROLS (GEAR) -->
+    <div class="fixed bottom-6 right-6 z-50 no-print flex flex-col items-end">
+        <div id="theme-menu" class="action-menu absolute bottom-[80px] right-0 bg-theme-surface border border-theme-border p-5 rounded-2xl shadow-2xl flex flex-col gap-4 w-[340px] mb-2 max-h-[75vh] overflow-y-auto custom-scrollbar">
+            <p class="text-xs text-theme-textMain font-heading font-bold uppercase tracking-widest text-center border-b border-theme-border pb-3">Settings & Customization</p>
+            
+            <!-- Colors -->
+            <div class="space-y-2">
+                <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Corporate Palette</p>
+                <div class="flex gap-2 justify-between">
+                    <button onclick="setColor('sky')" class="w-8 h-8 rounded-full bg-[#0ea5e9] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
+                    <button onclick="setColor('emerald')" class="w-8 h-8 rounded-full bg-[#10b981] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
+                    <button onclick="setColor('violet')" class="w-8 h-8 rounded-full bg-[#8b5cf6] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
+                    <button onclick="setColor('rose')" class="w-8 h-8 rounded-full bg-[#f43f5e] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
+                    <button onclick="setColor('amber')" class="w-8 h-8 rounded-full bg-[#f59e0b] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
+                </div>
+            </div>
+            
+            <!-- Fonts & Layout -->
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="space-y-2">
+                    <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Typography</p>
+                    <button onclick="setFont('sans')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain" style="font-family: 'Inter', sans-serif;">Sans</button>
+                    <button onclick="setFont('serif')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain" style="font-family: 'Merriweather', serif;">Serif</button>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Layout</p>
+                    <button onclick="setLayout('split')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Split</button>
+                    <button onclick="setLayout('stacked')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Stacked</button>
+                </div>
+            </div>
+
+            <!-- Font Size Scaler -->
+            <div class="space-y-2 mt-2">
+                <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-t        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
         @media screen { #print-resume { display: none !important; } }
