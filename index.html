@@ -772,35 +772,24 @@
             try {
                 chatHistory.push({ role: "user", parts: [{ text: text }] });
                 
-                // Instead of talking to Gemini directly, we talk to our secure Netlify Function
+                // Connect to your secure Netlify Backend!
                 const payload = {
                     systemPrompt: getSystemPrompt(),
                     chatHistory: chatHistory
                 };
                 
-                let res; let retries = 3; let delay = 1000;
-                while(retries > 0) {
-                    res = await fetch('/.netlify/functions/chat', { 
-                        method: 'POST', 
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload) 
-                    });
-                    if(res.ok) break;
-                    
-                    // NEW: If it fails, let's grab the exact error reason from the backend
-                    if(!res.ok && retries === 1) {
-                        try {
-                            const errData = await res.json();
-                            throw new Error(errData.details?.error?.message || errData.error || "Unknown Server Error");
-                        } catch(parseErr) {
-                            throw new Error("Cannot reach Netlify Backend. Are you testing locally?");
-                        }
-                    }
-
-                    retries--; await new Promise(r => setTimeout(r, delay)); delay *= 2;
+                const response = await fetch('/.netlify/functions/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Backend connection failed. Check your Netlify logs.");
                 }
                 
-                const data = await res.json();
+                const data = await response.json();
                 let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't process that.";
                 
                 chatHistory.push({ role: "model", parts: [{ text: aiText }] });
@@ -818,8 +807,7 @@
                 });
                 
             } catch(e) {
-                // NEW: Print the exact error directly to the chat screen!
-                updateChatMessage(loadingId, `🚨 <b>Error:</b> ${e.message}<br><br><i>(Note: If it says "Cannot reach Netlify Backend", you must test this on your live Netlify.app link, not your local computer!)</i>`);
+                updateChatMessage(loadingId, `🚨 <b>Error:</b> ${e.message}`);
                 inputEl.disabled = false; inputEl.focus();
                 chatHistory.pop(); // Remove failed prompt
             }
