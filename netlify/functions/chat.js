@@ -4,13 +4,13 @@ exports.handler = async function(event, context) {
         return { statusCode: 405, body: "Method Not Allowed" };
     }
 
-    // 2. Safely grab the API key from Netlify's secret vault
-    const API_KEY = process.env.GEMINI_API_KEY;
+    // 2. Safely grab the GROQ API key from Netlify's environment variables
+    const API_KEY = process.env.GROQ_API_KEY;
     
     if (!API_KEY) {
         return { 
             statusCode: 500, 
-            body: JSON.stringify({ error: "Server Configuration Error: API Key missing." }) 
+            body: JSON.stringify({ error: "Server Configuration Error: GROQ_API_KEY missing from environment." }) 
         };
     }
 
@@ -18,44 +18,58 @@ exports.handler = async function(event, context) {
         // 3. Parse the data sent from your frontend
         const { systemPrompt, chatHistory } = JSON.parse(event.body);
 
-        // 4. Construct the payload for Gemini
+        // 4. Format history for Groq (OpenAI standard format)
+        const formattedHistory = chatHistory.map(msg => ({
+            role: msg.role === 'model' || msg.role === 'assistant' ? 'assistant' : 'user',
+            content: msg.content
+        }));
+
+        // 5. Construct the payload for Groq
         const payload = {
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            contents: chatHistory
+            model: "llama3-8b-8192", // Fast and highly intelligent model from Groq
+            messages: [
+                { role: "system", content: systemPrompt },
+                ...formattedHistory
+            ],
+            temperature: 0.7,
+            max_tokens: 400
         };
 
-        // Use the stable gemini-1.5-flash model
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        const url = `https://api.groq.com/openai/v1/chat/completions`;
 
-        // 5. Securely contact Google Gemini from the server
+        // 6. Securely contact Groq from the server
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json' 
+            },
             body: JSON.stringify(payload)
         });
 
         const data = await response.json();
 
-        // NEW: If Google rejects the request, log the exact error!
+        // 7. Catch API Errors exactly
         if (!response.ok) {
-            console.error("GOOGLE API ERROR:", data);
+            console.error("GROQ API ERROR:", data);
+            const groqError = data.error && data.error.message ? data.error.message : "Groq rejected the request";
             return {
                 statusCode: response.status,
-                body: JSON.stringify({ error: "Google rejected the request", details: data })
+                body: JSON.stringify({ error: `Groq Error: ${groqError}`, details: data })
             };
         }
 
-        // 6. Send the response back to your website
+        // 8. Send the text response back to your website
         return {
             statusCode: 200,
-            body: JSON.stringify(data)
+            body: JSON.stringify({ reply: data.choices[0].message.content })
         };
 
     } catch (error) {
-        console.error("Error communicating with Gemini API:", error);
+        console.error("Error communicating with Groq API:", error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: "Failed to communicate with AI Engine" })
+            body: JSON.stringify({ error: "Failed to communicate with AI Engine. Check Netlify logs." })
         };
     }
 };
