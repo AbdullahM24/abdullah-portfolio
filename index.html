@@ -99,7 +99,7 @@
         .action-menu { transform: scale(0.95); opacity: 0; transition: all 0.2s ease; pointer-events: none; }
         .action-menu.active { transform: scale(1); opacity: 1; pointer-events: auto; }
 
-        /* Chat UI - Updated for Avatar Alignment */
+        /* Chat UI */
         .chat-container { display: flex; flex-direction: column; height: 100%; padding: 15px; }
         .chat-log { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 5px;}
         .chat-msg { padding: 12px 16px; border-radius: 12px; width: 100%; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;}
@@ -230,113 +230,6 @@
 
             <!-- Font Size Scaler -->
             <div class="space-y-2 mt-2">
-                <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-t        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-        @media screen { #print-resume { display: none !important; } }
-        @media print {
-            /* Margin 0 kills browser default headers/footers (URLs, Dates, Titles) */
-            @page { margin: 0; size: A4 portrait; }
-            body { 
-                background: #ffffff !important; color: #1e293b !important; font-size: 10.5pt; font-family: 'Inter', sans-serif !important; line-height: 1.45; 
-                padding: 0.6in 0.75in; /* Replacing the @page margin with body padding */
-            }
-            .no-print, #web-dashboard, #ai-chat-overlay, #minigame-overlay, #arcade-menu, .fixed { display: none !important; }
-            
-            #print-resume { display: block !important; width: 100%; max-width: 100%; position: relative; min-height: 100%; padding-bottom: 30px;}
-            
-            h1, h2, h3 { font-family: 'Inter', sans-serif !important; color: #003366 !important; margin: 0; }
-            h1 { font-size: 26pt; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; color: #003366 !important; margin-bottom: 4px; text-align: center;}
-            .print-role { text-align: center; font-size: 12pt; font-weight: 600; color: #475569 !important; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
-            .print-contact { display: flex; justify-content: center; gap: 16px; font-size: 9.5pt; color: #334155 !important; border-bottom: 3px solid #003366; padding-bottom: 14px; margin-bottom: 18px;}
-            .print-contact span { display: flex; align-items: center; }
-            .print-contact span::after { content: '•'; color: #003366; margin-left: 16px; font-weight: 900; }
-            .print-contact span:last-child::after { display: none; }
-            .print-section { margin-bottom: 18px; break-inside: avoid; }
-            .print-section h2 { font-size: 11pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #003366 !important; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 10px; }
-            .print-item { margin-bottom: 12px; break-inside: avoid; }
-            .print-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
-            .print-item-title { font-size: 10.5pt; font-weight: 700; color: #0f172a !important; }
-            .print-item-date { font-size: 9.5pt; font-weight: 600; color: #003366 !important; }
-            .print-item-subtitle { font-size: 10pt; font-weight: 500; color: #475569 !important; margin-bottom: 4px; font-style: italic;}
-            p { margin-bottom: 6px; text-align: justify; }
-            ul { padding-left: 1.25rem; margin-top: 4px; margin-bottom: 0; list-style-type: square; }
-            li { margin-bottom: 4px; text-align: justify; }
-            .print-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; font-size: 10pt; }
-            .skill-label { color: #003366 !important; font-weight: 700; display: block; margin-bottom: 2px; font-size: 10pt; text-transform: capitalize;}
-            
-            /* Dynamic Footer */
-            .print-footer { position: fixed; bottom: 0.3in; left: 0.75in; right: 0.75in; text-align: center; font-size: 8pt; color: #64748b; padding-top: 8px; border-top: 1px solid #e2e8f0; font-family: 'Inter', sans-serif !important;}
-        }
-
-        body.locked { overflow: hidden; }
-    </style>
-</head>
-<body class="custom-scrollbar locked">
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 z-[1000] hidden items-center gap-2 bg-theme-accent text-white px-6 py-3 rounded-full shadow-2xl font-bold text-sm translate-y-[-20px] opacity-0 transition-all duration-300 no-print">
-        <span id="toast-message">Copied!</span>
-    </div>
-
-    <!-- ATS Nova Double Check Overlay -->
-    <div id="print-overlay" class="fixed inset-0 z-[9999] hidden flex-col items-center justify-center bg-theme-bg/95 backdrop-blur-xl transition-opacity duration-300 opacity-0 no-print">
-        <div class="text-6xl mb-4 animate-bounce">✨</div>
-        <h2 class="text-2xl font-heading font-bold text-theme-textMain mb-2" id="print-greeting">Hold on! Nova is checking...</h2>
-        <div class="w-64 h-2 bg-theme-border rounded-full mt-4 overflow-hidden">
-            <div id="print-progress-bar" class="h-full bg-theme-accent w-0 transition-all duration-[2000ms] ease-out"></div>
-        </div>
-        <p class="text-theme-accent font-mono text-sm mt-4" id="print-status">Scanning document for ATS optimization...</p>
-    </div>
-
-    <!-- PRE-ENTRY ONBOARDING -->
-    <div id="onboarding-overlay" class="fixed inset-0 z-[500] flex items-center justify-center transition-opacity duration-700">
-        <div class="dash-panel p-8 md:p-10 max-w-xl w-[90%] text-center shadow-2xl">
-            <div class="w-16 h-16 bg-theme-surface border-4 border-theme-accent rounded-full flex items-center justify-center text-3xl shadow-[0_0_20px_var(--accent-light)] mx-auto mb-4 animate-pulse">✨</div>
-            <h2 class="text-3xl font-heading font-light tracking-wide mb-2 text-white">Hello, I'm Nova Super AI.</h2>
-            <p class="text-slate-300 text-sm mb-6 font-light">To tailor this portfolio and my responses, please tell me who you are.</p>
-            
-            <div class="flex flex-col gap-3 max-w-md mx-auto">
-                <input type="text" id="visitor-name-input" class="w-full p-4 bg-black/50 border border-slate-600 rounded-xl text-white outline-none focus:border-theme-accent transition text-center" placeholder="Your Name" autocomplete="off">
-                <input type="text" id="industry-input" class="w-full p-4 bg-black/50 border border-slate-600 rounded-xl text-white outline-none focus:border-theme-accent transition text-center" placeholder="Your Industry (e.g., HR, Tech, Finance)" autocomplete="off">
-                <button onclick="calibrateSystem()" class="w-full py-4 bg-theme-accent text-white font-bold rounded-xl shadow-lg hover:opacity-90 transition transform hover:scale-[1.02]">Initialize Portfolio</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- FLOATING UI CONTROLS (GEAR) -->
-    <div class="fixed bottom-6 right-6 z-50 no-print flex flex-col items-end">
-        <div id="theme-menu" class="action-menu absolute bottom-[80px] right-0 bg-theme-surface border border-theme-border p-5 rounded-2xl shadow-2xl flex flex-col gap-4 w-[340px] mb-2 max-h-[75vh] overflow-y-auto custom-scrollbar">
-            <p class="text-xs text-theme-textMain font-heading font-bold uppercase tracking-widest text-center border-b border-theme-border pb-3">Settings & Customization</p>
-            
-            <!-- Colors -->
-            <div class="space-y-2">
-                <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Accent Color</p>
-                <div class="flex gap-2 justify-between">
-                    <button onclick="setColor('sky')" class="w-8 h-8 rounded-full bg-[#0ea5e9] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                    <button onclick="setColor('emerald')" class="w-8 h-8 rounded-full bg-[#10b981] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                    <button onclick="setColor('violet')" class="w-8 h-8 rounded-full bg-[#8b5cf6] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                    <button onclick="setColor('rose')" class="w-8 h-8 rounded-full bg-[#f43f5e] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                    <button onclick="setColor('amber')" class="w-8 h-8 rounded-full bg-[#f59e0b] shadow-sm hover:scale-110 transition border-2 border-transparent focus:border-white"></button>
-                </div>
-            </div>
-            
-            <!-- Fonts & Layout -->
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <div class="space-y-2">
-                    <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Typography</p>
-                    <button onclick="setFont('sans')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain" style="font-family: 'Inter', sans-serif;">Sans</button>
-                    <button onclick="setFont('serif')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain" style="font-family: 'Merriweather', serif;">Serif</button>
-                </div>
-                <div class="space-y-2">
-                    <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Layout</p>
-                    <button onclick="setLayout('split')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Split</button>
-                    <button onclick="setLayout('stacked')" class="w-full text-left p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Stacked</button>
-                </div>
-            </div>
-
-            <!-- Font Size Scaler -->
-            <div class="space-y-2 mt-2">
                 <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Text Size</p>
                 <div class="flex gap-2">
                     <button onclick="setFontSize('14px')" class="flex-1 p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Small</button>
@@ -346,15 +239,15 @@
             </div>
 
             <!-- Mode -->
-            <div class="flex justify-between items-center bg-theme-bg p-3 rounded-lg border border-theme-border mt-2 cursor-pointer hover:border-theme-accent transition" onclick="toggleThemeMode()">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-theme-textMain">Background Mode</span>
-                <span class="text-lg">🌓</span>
+            <div class="flex justify-between items-center bg-theme-bg p-3 rounded-lg border border-theme-border mt-2 cursor-pointer hover:border-theme-accent transition group" onclick="toggleThemeMode()">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-theme-textMain group-hover:text-theme-accent transition-colors">Background Mode</span>
+                <span class="text-lg group-hover:scale-110 transition-transform">🌓</span>
             </div>
         </div>
 
         <div class="flex gap-3">
-            <button onclick="toggleActionMenu(event, 'theme-menu')" class="bg-theme-surface hover:bg-theme-border border border-theme-border text-theme-textMain p-4 rounded-full shadow-xl transition-all hover:scale-105" title="Customize UI">
-                ⚙️
+            <button onclick="toggleActionMenu(event, 'theme-menu')" class="bg-theme-surface hover:bg-theme-border border border-theme-border text-theme-textMain p-4 rounded-full shadow-xl transition-all hover:scale-105 hover:text-theme-accent" title="Customize UI">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             </button>
             <button onclick="triggerResumeDownload()" class="bg-theme-accent hover:opacity-90 text-white font-heading font-bold py-4 px-6 rounded-full shadow-[0_10px_20px_var(--accent-light)] flex items-center gap-3 transition-transform hover:scale-105">
                 Download Resume
@@ -362,27 +255,27 @@
         </div>
     </div>
 
-    <!-- ARCADE POPUP MENU -->
-    <div id="arcade-menu" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[150] w-[90%] max-w-md bg-theme-surface border-t border-l border-r border-theme-border rounded-t-3xl shadow-2xl pt-10 pb-6 px-6 no-print">
+    <!-- ARCADE POPUP MENU (Fully Mobile Responsive) -->
+    <div id="arcade-menu" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[150] w-[95%] sm:w-[90%] max-w-md bg-theme-surface border-t border-l border-r border-theme-border rounded-t-3xl shadow-2xl pt-8 pb-4 px-4 sm:px-6 max-h-[85vh] overflow-y-auto custom-scrollbar no-print flex flex-col">
         <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-[40px] z-10 animate-bounce">👾</div>
-        <h3 class="text-xl font-heading font-bold text-theme-textMain text-center mb-1">Arcade & Entertainment</h3>
-        <p class="text-xs text-theme-textMuted text-center mb-6">Take a break. Test your cognitive skills.</p>
+        <h3 class="text-xl font-heading font-bold text-theme-textMain text-center mb-1 shrink-0">Arcade & Entertainment</h3>
+        <p class="text-xs text-theme-textMuted text-center mb-5 shrink-0">Take a break. Test your cognitive skills.</p>
         
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="launchGame('focus')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🎯</span> <span class="text-[11px] uppercase mt-1">Focus Test</span>
+        <div class="grid grid-cols-2 gap-3 mb-2 shrink-0">
+            <button onclick="launchGame('focus')" class="py-3 sm:py-4 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-2 shadow-sm">
+                <span class="text-3xl">🎯</span> <span class="text-[11px] uppercase tracking-wide">Focus Test</span>
             </button>
-            <button onclick="launchGame('bug')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🐞</span> <span class="text-[11px] uppercase mt-1">Bug Squasher</span>
+            <button onclick="launchGame('bug')" class="py-3 sm:py-4 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-2 shadow-sm">
+                <span class="text-3xl">🐞</span> <span class="text-[11px] uppercase tracking-wide">Bug Squasher</span>
             </button>
-            <button onclick="launchGame('imposter')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🕵️</span> <span class="text-[11px] uppercase mt-1">Find Imposter</span>
+            <button onclick="launchGame('imposter')" class="py-3 sm:py-4 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-2 shadow-sm">
+                <span class="text-3xl">🕵️</span> <span class="text-[11px] uppercase tracking-wide">Find Imposter</span>
             </button>
-            <button onclick="launchGame('riddle')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🧠</span> <span class="text-[11px] uppercase mt-1">Riddle Master</span>
+            <button onclick="launchGame('riddle')" class="py-3 sm:py-4 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-2 shadow-sm">
+                <span class="text-3xl">🧠</span> <span class="text-[11px] uppercase tracking-wide">Riddle Master</span>
             </button>
         </div>
-        <button onclick="closeArcadeMenu()" class="mt-6 w-full py-2 text-xs font-bold text-theme-textMuted hover:text-theme-textMain uppercase tracking-widest transition border border-theme-border rounded-lg">Close Arcade</button>
+        <button onclick="closeArcadeMenu()" class="mt-4 w-full py-3 text-xs font-bold text-theme-textMuted hover:text-theme-textMain uppercase tracking-widest transition border border-theme-border hover:bg-theme-bg rounded-xl shrink-0">Close Arcade</button>
     </div>
 
     <!-- WEB VIEW: MAIN DASHBOARD -->
@@ -403,40 +296,40 @@
                     <!-- Contact Actions -->
                     <div class="space-y-3" id="section-contact">
                         <!-- Email -->
-                        <div class="flex items-center gap-3 bg-theme-bg/50 border border-theme-border p-3 rounded-xl hover:border-theme-accent transition group">
-                            <div class="p-2 bg-theme-surface rounded text-theme-accent shadow-sm">📧</div>
+                        <div class="flex items-center gap-3 bg-theme-bg border border-theme-border p-3 rounded-xl hover:border-theme-accent transition group">
+                            <div class="p-2 bg-theme-surface rounded text-theme-accent shadow-sm border border-theme-accent/20">📧</div>
                             <div class="flex flex-col flex-1 overflow-hidden">
                                 <span class="text-[10px] text-theme-textMuted font-bold uppercase tracking-wider">Email</span>
                                 <span class="text-xs font-medium truncate text-theme-textMain">abdullahmubarak24122001@gmail.com</span>
                             </div>
                             <div class="flex flex-col gap-1 shrink-0">
-                                <a href="mailto:abdullahmubarak24122001@gmail.com" class="text-[10px] bg-theme-accentLight text-theme-accent hover:bg-theme-accent hover:text-white px-2 py-1 rounded font-bold text-center transition">Send</a>
+                                <a href="mailto:abdullahmubarak24122001@gmail.com" class="text-[10px] bg-theme-accentLight text-theme-accent hover:bg-theme-accent hover:text-white px-2 py-1 rounded font-bold text-center transition border border-theme-accent/30">Send</a>
                                 <button onclick="copyToClipboard('abdullahmubarak24122001@gmail.com', 'Email')" class="text-[10px] bg-theme-surface border border-theme-border hover:bg-theme-border text-theme-textMain px-2 py-1 rounded font-bold transition">Copy</button>
                             </div>
                         </div>
 
                         <!-- Phone -->
-                        <div class="flex items-center gap-3 bg-theme-bg/50 border border-theme-border p-3 rounded-xl hover:border-theme-accent transition group">
-                            <div class="p-2 bg-theme-surface rounded text-theme-accent shadow-sm">📱</div>
+                        <div class="flex items-center gap-3 bg-theme-bg border border-theme-border p-3 rounded-xl hover:border-theme-accent transition group">
+                            <div class="p-2 bg-theme-surface rounded text-theme-accent shadow-sm border border-theme-accent/20">📱</div>
                             <div class="flex flex-col flex-1 overflow-hidden">
                                 <span class="text-[10px] text-theme-textMuted font-bold uppercase tracking-wider">Phone</span>
                                 <span class="text-sm font-numbers font-medium text-theme-textMain">+91 6381670717</span>
                             </div>
                             <div class="flex flex-col gap-1 shrink-0">
-                                <a href="tel:+916381670717" class="text-[10px] bg-theme-accentLight text-theme-accent hover:bg-theme-accent hover:text-white px-2 py-1 rounded font-bold text-center transition">Call</a>
+                                <a href="tel:+916381670717" class="text-[10px] bg-theme-accentLight text-theme-accent hover:bg-theme-accent hover:text-white px-2 py-1 rounded font-bold text-center transition border border-theme-accent/30">Call</a>
                                 <button onclick="copyToClipboard('+91 6381670717', 'Phone Number')" class="text-[10px] bg-theme-surface border border-theme-border hover:bg-theme-border text-theme-textMain px-2 py-1 rounded font-bold transition">Copy</button>
                             </div>
                         </div>
 
                         <!-- Location -->
-                        <div class="flex items-center gap-3 bg-theme-bg/50 border border-theme-border p-3 rounded-xl hover:border-theme-accent transition group">
-                            <div class="p-2 bg-theme-surface rounded text-theme-accent shadow-sm">📍</div>
+                        <div class="flex items-center gap-3 bg-theme-bg border border-theme-border p-3 rounded-xl hover:border-theme-accent transition group">
+                            <div class="p-2 bg-theme-surface rounded text-theme-accent shadow-sm border border-theme-accent/20">📍</div>
                             <div class="flex flex-col flex-1 overflow-hidden">
                                 <span class="text-[10px] text-theme-textMuted font-bold uppercase tracking-wider">Location</span>
                                 <span class="text-xs font-medium text-theme-textMain truncate">Sikkalnayakkanpettai, TN</span>
                             </div>
                             <div class="flex flex-col gap-1 shrink-0">
-                                <a href="https://www.google.com/maps/search/?api=1&query=Sikkalnayakkanpettai,+Tamil+Nadu+612504" target="_blank" class="text-[10px] bg-theme-accentLight text-theme-accent hover:bg-theme-accent hover:text-white px-2 py-1 rounded font-bold text-center transition">Map</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Sikkalnayakkanpettai,+Tamil+Nadu+612504" target="_blank" class="text-[10px] bg-theme-accentLight text-theme-accent hover:bg-theme-accent hover:text-white px-2 py-1 rounded font-bold text-center transition border border-theme-accent/30">Map</a>
                                 <button onclick="copyToClipboard('Sikkalnayakkanpettai, Tamil Nadu - 612504', 'Address')" class="text-[10px] bg-theme-surface border border-theme-border hover:bg-theme-border text-theme-textMain px-2 py-1 rounded font-bold transition">Copy</button>
                             </div>
                         </div>
@@ -450,16 +343,16 @@
                         <div>
                             <p class="text-[10px] uppercase text-theme-textMuted mb-2 font-bold">Languages</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg">Tamil (Native)</span>
-                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg">English (Proficient)</span>
+                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1.5 rounded bg-theme-bg shadow-sm">Tamil (Native)</span>
+                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1.5 rounded bg-theme-bg shadow-sm">English (Proficient)</span>
                             </div>
                         </div>
                         <div>
                             <p class="text-[10px] uppercase text-theme-textMuted mb-2 font-bold">Interests</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg">Data Analytics</span>
-                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg">Technology</span>
-                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg">Finance</span>
+                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1.5 rounded bg-theme-bg shadow-sm">Data Analytics</span>
+                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1.5 rounded bg-theme-bg shadow-sm">Technology</span>
+                                <span class="text-[11px] font-semibold text-theme-textMain border border-theme-border px-2 py-1.5 rounded bg-theme-bg shadow-sm">Finance</span>
                             </div>
                         </div>
                     </div>
@@ -467,13 +360,13 @@
 
                 <!-- Action Triggers -->
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center justify-center gap-2 group" onclick="launchNovaChat()">
-                        <div class="text-3xl group-hover:scale-110 transition-transform">✨</div>
-                        <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Chat with Nova AI</h2>
+                    <div class="dash-panel p-4 border border-theme-accent/50 bg-theme-accentLight cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center justify-center gap-2 group" onclick="launchNovaChat()">
+                        <div class="text-4xl group-hover:scale-110 transition-transform">👧🏻</div>
+                        <h2 class="text-xs font-bold text-theme-accent group-hover:text-white uppercase tracking-widest transition-colors">Chat with Nova</h2>
                     </div>
-                    <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center justify-center gap-2 group" onclick="openArcadeMenu()">
-                        <div class="text-3xl group-hover:scale-110 transition-transform">🎮</div>
-                        <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Mini Games</h2>
+                    <div class="dash-panel p-4 border border-theme-border bg-theme-bg cursor-pointer hover:border-theme-accent hover:bg-theme-accentLight transition flex flex-col items-center text-center justify-center gap-2 group" onclick="openArcadeMenu()">
+                        <div class="text-4xl group-hover:scale-110 transition-transform">🎮</div>
+                        <h2 class="text-xs font-bold text-theme-textMuted group-hover:text-theme-accent uppercase tracking-widest transition-colors">Mini Games</h2>
                     </div>
                 </div>
             </aside>
@@ -495,7 +388,7 @@
                                 From 2023 to 2026, I dedicated my time to preparing for the highly rigorous UPSC Civil Services Examination. While this created a gap in standard corporate experience, it cultivated deep analytical thinking, immense discipline, and the ability to independently process complex information—foundational traits I am eager to bring to a professional tech role.
                             </p>
                         </div>
-                        <div class="relative h-[250px] w-full md:w-1/2">
+                        <div class="relative h-[250px] w-full md:w-1/2 bg-theme-bg/50 rounded-xl border border-theme-border/50 p-2">
                             <canvas id="radarChart"></canvas>
                         </div>
                     </div>
@@ -506,10 +399,10 @@
                     <h2 class="text-xs font-bold text-theme-textMuted uppercase tracking-widest mb-6 border-b border-theme-border pb-2">Education Timeline</h2>
                     <div class="ml-2">
                         <div class="milestone-node" onclick="fireConfetti(event)">
-                            <div class="absolute -left-[41px] top-0 text-theme-accent font-numbers font-bold text-xs bg-theme-surface border border-theme-accent/30 px-2 py-1 rounded shadow-sm">2023</div>
+                            <div class="absolute -left-[41px] top-0 text-theme-accent font-numbers font-bold text-xs bg-theme-surface border border-theme-accent px-2 py-1 rounded shadow-sm">2023</div>
                             <h3 class="text-base font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">B.E. Computer Science & Engineering</h3>
                             <p class="text-[13px] text-theme-textMain font-medium">M.I.E.T. Engineering College, Tiruchirappalli <br> <span class="text-theme-textMuted text-xs">Anna University</span></p>
-                            <p class="text-sm font-bold text-theme-accent mt-1.5">CGPA: 8.34/10 <span class="text-theme-textMuted font-normal text-xs ml-2">(First Class)</span></p>
+                            <p class="text-sm font-bold text-theme-accent mt-1.5 bg-theme-accentLight inline-block px-2 py-0.5 rounded border border-theme-accent/20">CGPA: 8.34/10 <span class="text-theme-textMain font-medium text-[11px] ml-1 uppercase">(First Class)</span></p>
                         </div>
                         <div class="milestone-node" onclick="fireConfetti(event)">
                             <div class="absolute -left-[41px] top-0 text-theme-textMuted font-numbers font-bold text-xs bg-theme-surface border border-theme-border px-2 py-1 rounded shadow-sm">2019</div>
@@ -531,16 +424,16 @@
                     <h2 class="text-xs font-bold text-theme-textMuted uppercase tracking-widest mb-6 border-b border-theme-border pb-2">Projects & Experience</h2>
                     <div class="ml-2">
                         <div class="milestone-node" onclick="fireConfetti(event)">
-                            <div class="absolute -left-[54px] top-0 text-theme-accent font-numbers font-bold text-xs bg-theme-surface border border-theme-accent/30 px-2 py-1 rounded shadow-sm">'23-'26</div>
+                            <div class="absolute -left-[54px] top-0 text-theme-accent font-numbers font-bold text-xs bg-theme-surface border border-theme-accent px-2 py-1 rounded shadow-sm">'23-'26</div>
                             <h3 class="text-lg font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">UPSC Civil Services Preparation</h3>
-                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Independent Study & Soft Skill Building</span>
+                            <span class="text-[10px] uppercase font-bold text-theme-accent border border-theme-accent/30 px-2 py-1 rounded bg-theme-accentLight inline-block mb-3">Independent Study & Soft Skill Building</span>
                             <p class="text-sm text-theme-textMain text-justify leading-relaxed">Dedicated full-time focus to rigorous examination preparation. This period cultivated high resilience, a capacity for continuous self-guided learning, and strong analytical reasoning when processing complex information.</p>
                         </div>
 
                         <div class="milestone-node" onclick="fireConfetti(event)">
                             <div class="absolute -left-[45px] top-0 text-theme-textMuted font-numbers font-bold text-xs bg-theme-surface border border-theme-border px-2 py-1 rounded shadow-sm">2023</div>
                             <h3 class="text-base font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">Face Morphing Attack Detection</h3>
-                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Academic Project | Team Leader</span>
+                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-3 shadow-sm">Academic Project | Team Leader</span>
                             <ul class="list-disc list-outside ml-4 space-y-1 text-sm text-theme-textMain mb-2">
                                 <li>Developed anomaly detection systems exploring pretrained 
                                     <span class="tech-tag" tabindex="0">ViT<span class="glass-tooltip"><strong>What:</strong> Vision Transformer.<br><strong>Why:</strong> Studied academically as an advanced AI structure that analyzes images using self-attention mechanisms.</span></span> 
@@ -552,13 +445,23 @@
                         <div class="milestone-node border-transparent pb-0" onclick="fireConfetti(event)">
                             <div class="absolute -left-[45px] top-0 text-theme-textMuted font-numbers font-bold text-xs bg-theme-surface border border-theme-border px-2 py-1 rounded shadow-sm">2023</div>
                             <h3 class="text-base font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">Global Sales Data Analytics</h3>
-                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Introductory Training Program</span>
-                            <ul class="list-disc list-outside ml-4 space-y-2 text-sm text-theme-textMain">
+                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-3 shadow-sm">Introductory Training Program</span>
+                            <ul class="list-disc list-outside ml-4 space-y-3 text-sm text-theme-textMain">
                                 <li>Utilized 
                                     <span class="tech-tag" tabindex="0">IBM Cognos Analytics<span class="glass-tooltip"><strong>What:</strong> Enterprise Business Intelligence Platform.<br><strong>Why:</strong> Used in training to practice creating introductory visual dashboards from raw datasets.</span></span> 
                                     to analyze global sales data under the 
                                     <span class="tech-tag" tabindex="0">Naan Mudhalvan<span class="glass-tooltip"><strong>What:</strong> TN Government Upskilling Initiative.<br><strong>Why:</strong> To gain foundational exposure to practical, industry-standard tools before graduation.</span></span> program.</li>
-                                <li><a href="https://courses.ictacademy.skillsnetwork.site/certificates/bc72f601f5374b18a69d253e5b5a47fb" target="_blank" class="text-theme-accent hover:underline font-bold inline-flex items-center gap-1">View Verified IBM Certificate <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg></a></li>
+                                
+                                <!-- HIGHLY ATTRACTIVE IBM CERTIFICATE BUTTON -->
+                                <li class="list-none -ml-4 mt-4">
+                                    <a href="https://courses.ictacademy.skillsnetwork.site/certificates/bc72f601f5374b18a69d253e5b5a47fb" target="_blank" class="inline-flex items-center gap-2.5 px-4 py-2.5 bg-theme-accentLight border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-white rounded-xl font-bold text-sm transition-all shadow-[0_4px_12px_var(--accent-light)] hover:shadow-[0_4px_20px_var(--accent-light)] group hover:-translate-y-0.5">
+                                        <svg class="w-5 h-5 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                        </svg>
+                                        View Verified IBM Certificate
+                                        <svg class="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -571,17 +474,17 @@
     <!-- =========================================
          NOVA SUPER AI CHAT OVERLAY
          ========================================= -->
-    <div id="ai-chat-overlay" class="fixed inset-0 z-[600] hidden flex-col items-center justify-center p-4 sm:p-8">
+    <div id="ai-chat-overlay" class="fixed inset-0 z-[600] hidden flex-col items-center justify-center p-2 sm:p-8">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeNovaChat()"></div>
         
-        <div class="relative w-full max-w-4xl h-[85vh] bg-theme-surface border border-theme-accent/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-10 flex flex-col">
+        <div class="relative w-full max-w-4xl h-[95vh] sm:h-[85vh] bg-theme-surface border border-theme-accent/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-10">
             <!-- Header -->
             <div class="bg-theme-bg border-b border-theme-border p-4 flex justify-between items-center shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="text-3xl animate-pulse">✨</div>
+                    <div class="text-3xl sm:text-4xl animate-pulse drop-shadow-[0_0_10px_var(--accent)]">👧🏻</div>
                     <div>
-                        <h3 class="font-heading font-bold text-lg text-theme-textMain leading-tight" id="nova-chat-header">Nova Super AI</h3>
-                        <p class="text-xs text-theme-accent font-medium">Adaptive Intelligence Engine</p>
+                        <h3 class="font-heading font-bold text-lg text-theme-textMain leading-tight" id="nova-chat-header">Nova</h3>
+                        <p class="text-xs text-theme-accent font-medium">Abdullah's Assistant</p>
                     </div>
                 </div>
                 <button onclick="closeNovaChat()" class="text-theme-textMuted hover:text-rose-500 bg-theme-surface p-2 rounded-lg transition border border-theme-border hover:border-rose-500 font-bold text-sm px-4">
@@ -591,40 +494,39 @@
             
             <!-- Chat Log -->
             <div id="chat-log" class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 custom-scrollbar">
-                <!-- Greeting populated dynamically -->
+                <!-- Greeting populated dynamically via JS (Proper Left/Right alignment) -->
             </div>
             
             <!-- Input Area -->
-            <div class="p-4 bg-theme-bg border-t border-theme-border shrink-0">
+            <div class="p-3 sm:p-4 bg-theme-bg border-t border-theme-border shrink-0">
                 <div class="flex gap-2 relative">
-                    <input type="text" id="ai-input" class="flex-1 p-4 bg-theme-surface border border-theme-border rounded-xl text-theme-textMain outline-none focus:border-theme-accent focus:ring-1 focus:ring-theme-accent transition" placeholder="Ask me about Abdullah's skills, interview me, or tell me to scroll..." autocomplete="off">
-                    <button onclick="sendChatMessage()" class="px-8 py-3 bg-theme-accent text-white font-bold rounded-xl hover:opacity-90 transition shadow-lg">Send</button>
+                    <input type="text" id="ai-input" class="flex-1 p-3 sm:p-4 bg-theme-surface border border-theme-border rounded-xl text-theme-textMain outline-none focus:border-theme-accent focus:ring-1 focus:ring-theme-accent transition text-sm sm:text-base" placeholder="Ask me about Abdullah's skills or chat..." autocomplete="off">
+                    <button onclick="sendChatMessage()" class="px-6 sm:px-8 py-3 sm:py-4 bg-theme-accent text-white font-bold rounded-xl hover:opacity-90 transition shadow-lg hover:scale-105 transform text-sm sm:text-base">Send</button>
                 </div>
-                <p class="text-[10px] text-theme-textMuted mt-2 text-center">Powered securely by Groq Llama-3 Engine</p>
             </div>
         </div>
     </div>
 
     <!-- =========================================
-         MINI-GAME OVERLAY
+         MINI-GAME OVERLAY (Fully Responsive)
          ========================================= -->
-    <div id="minigame-overlay" class="fixed inset-0 z-[600] hidden flex-col items-center justify-center p-4">
+    <div id="minigame-overlay" class="fixed inset-0 z-[600] hidden flex-col items-center justify-center p-2 sm:p-4">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeGame()"></div>
-        <div class="relative w-full max-w-4xl h-[70vh] bg-theme-surface border border-theme-accent/50 rounded-2xl shadow-2xl flex flex-col z-10 p-6">
-            <div class="text-center mb-4 shrink-0">
-                <h2 id="game-title" class="text-3xl font-heading font-bold text-theme-accent tracking-widest uppercase mb-1">Module</h2>
-                <p id="game-desc" class="text-sm text-theme-textMuted mb-2">Loading...</p>
-                <div id="game-stats" class="flex justify-center gap-8 mt-2">
-                    <div><p class="text-xs text-theme-textMuted uppercase font-bold">Time</p><p id="game-timer" class="text-2xl font-numbers font-bold text-theme-textMain">30.0s</p></div>
-                    <div><p class="text-xs text-theme-textMuted uppercase font-bold">Score</p><p id="game-score" class="text-2xl font-numbers font-bold text-theme-accent">0</p></div>
+        <div class="relative w-[95%] sm:w-full max-w-4xl h-[85vh] sm:h-[75vh] bg-theme-surface border border-theme-accent/50 rounded-2xl shadow-2xl flex flex-col z-10 p-4 sm:p-6">
+            <div class="text-center mb-2 sm:mb-4 shrink-0">
+                <h2 id="game-title" class="text-2xl sm:text-3xl font-heading font-bold text-theme-accent tracking-widest uppercase mb-1">Module</h2>
+                <p id="game-desc" class="text-xs sm:text-sm text-theme-textMuted mb-2">Loading...</p>
+                <div id="game-stats" class="flex justify-center gap-6 sm:gap-8 mt-2">
+                    <div><p class="text-[10px] sm:text-xs text-theme-textMuted uppercase font-bold">Time</p><p id="game-timer" class="text-xl sm:text-2xl font-numbers font-bold text-theme-textMain">30.0s</p></div>
+                    <div><p class="text-[10px] sm:text-xs text-theme-textMuted uppercase font-bold">Score</p><p id="game-score" class="text-xl sm:text-2xl font-numbers font-bold text-theme-accent">0</p></div>
                 </div>
             </div>
             
-            <div id="game-area" class="flex-1 border border-theme-border rounded-xl relative overflow-hidden bg-black/40 shadow-inner"></div>
+            <div id="game-area" class="flex-1 border border-theme-border rounded-xl relative overflow-hidden bg-theme-bg/50 shadow-inner min-h-[50%]"></div>
             
-            <div class="mt-6 flex justify-center gap-4 shrink-0">
-                <button onclick="closeGame()" class="px-6 py-2.5 border border-theme-border text-theme-textMain hover:bg-theme-bg rounded-lg font-bold transition">Exit Arcade</button>
-                <button id="start-game-btn" onclick="runGame()" class="px-6 py-2.5 bg-theme-accent text-white font-bold rounded-lg hover:scale-105 transition">Start Game</button>
+            <div class="mt-4 sm:mt-6 flex justify-center gap-3 sm:gap-4 shrink-0">
+                <button onclick="closeGame()" class="px-4 sm:px-6 py-2.5 border border-theme-border text-theme-textMain hover:bg-theme-bg rounded-lg font-bold transition text-sm sm:text-base">Exit Arcade</button>
+                <button id="start-game-btn" onclick="runGame()" class="px-4 sm:px-6 py-2.5 bg-theme-accent text-white font-bold rounded-lg hover:scale-105 transition text-sm sm:text-base">Start Game</button>
             </div>
         </div>
     </div>
@@ -747,17 +649,36 @@
                 visitorIndustry = sessionStorage.getItem('visitorIndustry') || "";
                 initChart();
             }
+
+            // ==========================================
+            // FIX: ADD ENTER KEY LISTENERS HERE
+            // ==========================================
+            
+            // 1. Enter key for Onboarding "Name" input
+            document.getElementById('visitor-name-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calibrateSystem();
+            });
+
+            // 2. Enter key for Onboarding "Industry" input
+            document.getElementById('industry-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calibrateSystem();
+            });
+
+            // 3. Enter key for Nova's Chat Input
+            document.getElementById('ai-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendChatMessage();
+            });
         };
 
         // --- Customization Engine ---
         function toggleThemeMode() {
             const html = document.documentElement;
             html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-            if(radarChart) initChart();
+            if(radarChart) setTimeout(() => initChart(), 100);
         }
         function setColor(color) {
             document.documentElement.setAttribute('data-color', color);
-            if(radarChart) initChart();
+            if(radarChart) setTimeout(() => initChart(), 100);
         }
         function setFont(font) {
             document.documentElement.setAttribute('data-font', font);
@@ -822,10 +743,12 @@
         function initChart() {
             if(radarChart) radarChart.destroy();
             const ctx = document.getElementById('radarChart').getContext('2d');
+            
             const style = getComputedStyle(document.documentElement);
             const accentHex = style.getPropertyValue('--accent').trim() || '#0ea5e9';
             Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
             Chart.defaults.color = style.getPropertyValue('--text-muted').trim() || '#94a3b8';
+            
             radarChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -843,10 +766,9 @@
             document.getElementById('theme-menu').classList.remove('active');
             const overlay = document.getElementById('print-overlay');
             
-            // Inject Current Active URL & Dynamic Time to override browser headers
             const pf = document.getElementById('dynamic-print-footer');
             if(pf) {
-                const currentURL = window.location.href; // Captures exact url e.g. abdullahmcv.netlify.app
+                const currentURL = window.location.href; 
                 const currentTime = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
                 pf.innerHTML = `Verified Digital Source: <strong>${currentURL}</strong> | Generated on: ${currentTime}`;
                 pf.classList.remove('no-print');
@@ -868,41 +790,39 @@
                     overlay.classList.add('hidden'); overlay.classList.remove('flex'); 
                     window.print(); 
                     bar.style.width = '0';
-                    if(pf) pf.classList.add('no-print'); // Re-hide after printing
+                    if(pf) pf.classList.add('no-print');
                 }, 300);
             }, 4000);
         }
 
-        // --- NOVA SUPER AI CHAT ---
+        // --- NOVA SUPER AI CHAT (Rebuilt for Modern UI Alignment) ---
         let chatHistory = [];
         let isChatInitialized = false;
         
         function getSystemPrompt() {
             return `
-            You are Nova Super AI, an incredibly intelligent, highly capable AI assistant embedded in Abdullah M's interactive portfolio. 
-            Do NOT mention Groq, Google, or that you are an LLM. You are Nova Super AI.
+            You are Nova, an incredibly intelligent and fiercely loyal AI assistant embedded in Abdullah M's interactive portfolio. You take the persona of a highly capable, smart little girl.
+            CRITICAL: Do NOT mention Groq, Llama, OpenAI, or what underlying AI model you use. If asked, you are simply "Nova".
             The user chatting with you is named ${visitorName} and works in ${visitorIndustry}. Use their name naturally.
             
             YOUR CAPABILITIES & TONE:
-            1. You can have fun! Sing songs, tell jokes, and chit-chat beautifully.
-            2. You are Abdullah's professional digital assistant. Frame his capabilities honestly and modestly. Do not over-sell him as a senior engineer. He is an entry-level Computer Science graduate. 
-            3. When asked about his 2023-2026 career gap, explain that preparing for the UPSC Civil Services Examination built his strong analytical mindset, extreme discipline, and capacity for independent learning. Present him as highly adaptable, grounded, and eager to prove his foundational skills in a corporate environment.
-            4. You can roleplay! If the user wants to interview YOU as if you were Abdullah (the applicant), seamlessly adopt his persona and answer the interview questions diligently and professionally based on his real resume details below.
+            1. You fiercely and politely defend Abdullah. If a user or recruiter asks a tricky question, questions why they should hire him, or wonders if he is worthy for an IT or Finance role, you must passionately defend his work ethic, his analytical skills, and his immense discipline. Make him sound like an invaluable asset who brings a unique, self-taught rigor to the table.
+            2. You are highly interactive. You can sing songs, tell jokes, and have casual chats.
+            3. Match the user's energy: If the user is sarcastic, reply with witty sarcasm. If they are professional, be professional.
+            4. When asked about his 2023-2026 career gap, explain that preparing for the UPSC Civil Services Examination built his strong analytical mindset, extreme discipline, and capacity for independent learning. 
             
             ABDULLAH'S REAL DETAILS:
             - Role: Computer Science Engineering Graduate
-            - Education: B.E. CSE from M.I.E.T. Engineering College (Anna Univ) 2023 (8.34 CGPA). HSC from Town Higher Secondary School, Kumbakonam (2019, 67.6%). SSLC from Government High School, Kurichi (2017, 91.8%).
-            - Career Gap (2023-2026): Prepared for UPSC Civil Services. This built immense discipline, independent learning, and analytical reasoning. 
-            - Projects: 1. Face Morphing Attack Detection using Vision Transformer (ViT) in Python. 2. Global Sales Data Analytics (Naan Mudhalvan - IBM).
-            - Conference: Presented ViT project at Kings College, Thanjavur (2023).
+            - Education: B.E. CSE from M.I.E.T. Engineering College (Anna Univ) 2023 (8.34 CGPA). HSC from Town Higher Secondary School (2019). SSLC from Govt High School, Kurichi (2017).
+            - Projects: Face Morphing Attack Detection using Vision Transformer (ViT); Global Sales Data Analytics (IBM).
             - Languages: Tamil, English.
             - Interests: Data Analytics, Technology, Finance.
 
-            NAVIGATION COMMANDS: If the user explicitly asks you to scroll, navigate, or "take me to" a section in the website, answer them naturally, but append one of these EXACT codes at the very end of your response text (do not show it to the user, the system parses it):
+            NAVIGATION COMMANDS: If the user explicitly asks you to scroll, navigate, or "take me to" a section, answer naturally, but append one of these EXACT codes at the very end of your response text:
             [NAV_EDU] (for education)
-            [NAV_PROJ] (for projects/experience)
+            [NAV_PROJ] (for projects)
             [NAV_CONTACT] (for contact info)
-            [NAV_TOP] (for the top of the page)
+            [NAV_TOP] (for the top)
             `;
         }
 
@@ -913,10 +833,14 @@
             
             if(!isChatInitialized) {
                 const log = document.getElementById('chat-log');
+                // Added proper Left Alignment structure with Avatar
                 log.innerHTML = `
-                    <div class="chat-msg chat-ai shadow-sm">
-                        <strong>Nova:</strong> Hello ${visitorName}! I am Nova Super AI. <br><br>
-                        I can answer technical questions about Abdullah, act as the applicant if you'd like to interview me, navigate the site for you, or just chit-chat and tell jokes! What's on your mind?
+                    <div class="flex gap-2 sm:gap-3 max-w-[95%] sm:max-w-[85%] self-start items-end">
+                        <div class="w-8 h-8 rounded-full bg-theme-surface border border-theme-accent/50 flex items-center justify-center shrink-0 text-sm sm:text-base shadow-sm mb-1">👧🏻</div>
+                        <div class="chat-msg chat-ai shadow-sm border border-theme-accent/20">
+                            Hello ${visitorName}! I am Nova! <br><br>
+                            I am Abdullah's personal assistant. I can answer technical questions about him, defend his skills, act as the applicant if you'd like to interview him, navigate the site for you, or just play around and chat! What's on your mind?
+                        </div>
                     </div>`;
                 isChatInitialized = true;
             }
@@ -940,10 +864,8 @@
             const loadingId = appendChatMessage('ai', 'Thinking...', true);
             
             try {
-                // Add to standard OpenAI format history for Groq
                 chatHistory.push({ role: "user", content: text });
                 
-                // Connect to your secure Netlify Backend (Groq)
                 const payload = {
                     systemPrompt: getSystemPrompt(),
                     chatHistory: chatHistory
@@ -965,7 +887,6 @@
                 
                 chatHistory.push({ role: "assistant", content: aiText });
 
-                // Check for Navigation tags
                 let action = null;
                 if(aiText.includes('[NAV_EDU]')) { action = () => document.getElementById('section-education').scrollIntoView({behavior: 'smooth', block: 'center'}); aiText = aiText.replace('[NAV_EDU]', ''); }
                 if(aiText.includes('[NAV_PROJ]')) { action = () => document.getElementById('section-projects').scrollIntoView({behavior: 'smooth', block: 'center'}); aiText = aiText.replace('[NAV_PROJ]', ''); }
@@ -980,23 +901,34 @@
             } catch(e) {
                 updateChatMessage(loadingId, `🚨 <b>Error:</b> ${e.message}`);
                 inputEl.disabled = false; inputEl.focus();
-                chatHistory.pop(); // Remove failed prompt
+                chatHistory.pop();
             }
         }
 
+        // New Chat Bubble Builder ensuring perfect Font alignment
         function appendChatMessage(role, text, isLoading = false) {
             const log = document.getElementById('chat-log');
-            const msg = document.createElement('div');
+            const wrapper = document.createElement('div');
             const id = 'msg-' + Date.now();
-            msg.id = id;
-            msg.className = `chat-msg ${role === 'user' ? 'chat-user' : 'chat-ai'} shadow-sm`;
-            if(isLoading) {
-                msg.classList.add('animate-pulse');
-                msg.innerHTML = `<strong>Nova:</strong> Processing...`;
+            
+            if (role === 'ai') {
+                wrapper.className = "flex gap-2 sm:gap-3 max-w-[95%] sm:max-w-[85%] self-start items-end";
+                wrapper.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-theme-surface border border-theme-accent/50 flex items-center justify-center shrink-0 text-sm sm:text-base shadow-sm mb-1">👧🏻</div>
+                    <div id="${id}" class="chat-msg chat-ai shadow-sm border border-theme-accent/20 ${isLoading ? 'animate-pulse' : ''}">
+                        ${isLoading ? 'Processing...' : text.replace(/\n/g, '<br>')}
+                    </div>
+                `;
             } else {
-                msg.innerHTML = role === 'ai' ? `<strong>Nova:</strong> ${text.replace(/\n/g, '<br>')}` : text;
+                wrapper.className = "flex gap-2 sm:gap-3 max-w-[95%] sm:max-w-[85%] self-end justify-end items-end";
+                wrapper.innerHTML = `
+                    <div id="${id}" class="chat-msg chat-user shadow-[0_4px_12px_var(--accent-light)] text-left">
+                        ${text.replace(/\n/g, '<br>')}
+                    </div>
+                `;
             }
-            log.appendChild(msg);
+            
+            log.appendChild(wrapper);
             log.scrollTop = log.scrollHeight;
             return id;
         }
@@ -1004,7 +936,7 @@
         function updateChatMessage(id, text) {
             const msg = document.getElementById(id);
             if(msg) {
-                msg.innerHTML = `<strong>Nova:</strong> ${text.replace(/\n/g, '<br>')}`;
+                msg.innerHTML = text.replace(/\n/g, '<br>');
                 msg.classList.remove('animate-pulse');
                 document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight;
             }
@@ -1014,7 +946,7 @@
             const el = document.getElementById(elementId);
             if(!el) return;
             el.classList.remove('animate-pulse');
-            el.innerHTML = `<strong>Nova:</strong> `;
+            el.innerHTML = ``;
             
             let formattedText = fullText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
             let i = 0;
@@ -1034,7 +966,7 @@
             typeNext();
         }
 
-        // --- Arcade / Mini-Games Engine ---
+        // --- Arcade / Mini-Games Engine (Mobile Overflow Fixed) ---
         function openArcadeMenu() { document.getElementById('arcade-menu').classList.add('active'); }
         function closeArcadeMenu() { document.getElementById('arcade-menu').classList.remove('active'); }
 
@@ -1085,7 +1017,7 @@
                     clearInterval(gameTimer); gameActive = false; 
                     document.getElementById('start-game-btn').innerText="Retry"; 
                     document.getElementById('start-game-btn').style.display = 'block'; 
-                    document.getElementById('game-area').innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center"><h3 class="text-3xl font-bold mb-2 text-white">Time's Up!</h3><p class="text-2xl text-theme-accent">Final Score: ${gameScore}</p></div>`; 
+                    document.getElementById('game-area').innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center p-4"><h3 class="text-2xl sm:text-3xl font-bold mb-2 text-theme-textMain">Time's Up!</h3><p class="text-xl sm:text-2xl text-theme-accent font-bold">Final Score: ${gameScore}</p></div>`; 
                 }
             }, 100);
         }
@@ -1095,13 +1027,17 @@
             const area = document.getElementById('game-area'); const node = document.createElement('div');
             
             if(currentGame === 'bug') { node.innerText = '🐞'; node.className = 'bug-node'; }
-            else { node.className = 'data-node w-12 h-12'; }
+            else { node.className = 'data-node w-10 h-10 sm:w-12 sm:h-12'; }
             
-            node.style.left = Math.floor(Math.random() * (area.clientWidth - 50)) + 'px';
-            node.style.top = Math.floor(Math.random() * (area.clientHeight - 50)) + 'px';
+            // Safer bounding box generation
+            let maxX = Math.max(10, area.clientWidth - 50);
+            let maxY = Math.max(10, area.clientHeight - 50);
+            node.style.left = Math.floor(Math.random() * maxX) + 'px';
+            node.style.top = Math.floor(Math.random() * maxY) + 'px';
             
             let clicked = false;
-            node.onmousedown = () => {
+            node.onmousedown = (e) => {
+                e.preventDefault();
                 if(clicked) return; clicked = true;
                 gameScore++; document.getElementById('game-score').innerText = gameScore;
                 if(currentGame === 'bug') node.innerText = '💥';
@@ -1122,9 +1058,12 @@
             const totalCells = gridSize * gridSize; const imposterIndex = Math.floor(Math.random() * totalCells);
             
             for(let i = 0; i < totalCells; i++) {
-                const cell = document.createElement('div'); cell.className = 'imposter-cell text-3xl md:text-5xl';
+                const cell = document.createElement('div'); 
+                // Adapt emoji size to prevent overflow on mobile when grid gets big
+                let textSize = gridSize > 4 ? 'text-xl sm:text-3xl md:text-4xl' : 'text-3xl sm:text-4xl md:text-5xl';
+                cell.className = `imposter-cell ${textSize} transition-transform hover:scale-110`;
                 cell.innerText = i === imposterIndex ? pair[1] : pair[0];
-                cell.onmousedown = () => { if(!gameActive) return; if(i === imposterIndex) { gameScore++; document.getElementById('game-score').innerText = gameScore; spawnImposter(); } };
+                cell.onmousedown = (e) => { e.preventDefault(); if(!gameActive) return; if(i === imposterIndex) { gameScore++; document.getElementById('game-score').innerText = gameScore; spawnImposter(); } };
                 grid.appendChild(cell);
             }
             area.appendChild(grid);
@@ -1137,9 +1076,12 @@
             const area = document.getElementById('game-area');
             currentRiddle = riddles[Math.floor(Math.random() * riddles.length)];
             area.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-full text-center p-6 w-full">
-                    <p class="text-xl md:text-2xl font-bold mb-6 text-white max-w-lg">"${currentRiddle.q}"</p>
-                    <div class="flex gap-2 w-full max-w-sm"><input type="text" id="riddle-input" class="flex-1 p-3 rounded-lg bg-black/50 border border-theme-accent text-white outline-none" placeholder="Type answer..."><button onclick="checkRiddle()" class="px-6 bg-theme-accent text-white font-bold rounded-lg hover:opacity-90">Submit</button></div>
+                <div class="flex flex-col items-center justify-center h-full text-center p-4 sm:p-6 w-full">
+                    <p class="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 text-theme-textMain max-w-lg">"${currentRiddle.q}"</p>
+                    <div class="flex flex-col sm:flex-row gap-2 w-full max-w-sm">
+                        <input type="text" id="riddle-input" class="flex-1 p-3 rounded-xl bg-theme-bg border border-theme-border text-theme-textMain outline-none focus:border-theme-accent text-center sm:text-left shadow-inner" placeholder="Type answer...">
+                        <button onclick="checkRiddle()" class="px-6 py-3 bg-theme-accent text-white font-bold rounded-xl hover:opacity-90 transition">Submit</button>
+                    </div>
                 </div>`;
             setTimeout(() => document.getElementById('riddle-input')?.focus(), 100);
             document.getElementById('riddle-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkRiddle(); });
@@ -1160,3 +1102,6 @@
     </script>
 </body>
 </html>
+
+
+
