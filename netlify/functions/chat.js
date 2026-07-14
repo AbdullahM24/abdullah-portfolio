@@ -1,3 +1,4 @@
+```javascript
 exports.handler = async function(event, context) {
     // 1. Check if the request is a POST request
     if (event.httpMethod !== "POST") {
@@ -26,7 +27,7 @@ exports.handler = async function(event, context) {
 
         // 5. Construct the payload for Groq
         const payload = {
-            model: "llama3-8b-8192", // Fast and highly intelligent model from Groq
+            model: "llama-3.1-8b-instant", // CHANGED: Updated to a current, supported Groq model
             messages: [
                 { role: "system", content: systemPrompt },
                 ...formattedHistory
@@ -73,3 +74,5 @@ exports.handler = async function(event, context) {
         };
     }
 };
+
+```
