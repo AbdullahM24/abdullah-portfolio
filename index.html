@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth antialiased" data-theme="dark" data-color="sky" data-font="sans" data-layout="split">
+<html lang="en" class="scroll-smooth antialiased" data-theme="dark" data-color="sky" data-layout="split">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdullah M - Software & Data Engineer</title>
+    <title>Abdullah M - Computer Science Graduate</title>
     
     <!-- Tailwind, Chart.js, and Canvas Confetti -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,9 +23,6 @@
     </script>
 
     <style>
-        /* =========================================
-           DYNAMIC THEME VARIABLES
-           ========================================= */
         :root {
             --bg: #0f172a; --surface: rgba(30, 41, 59, 0.75); --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8;
             --accent: #0ea5e9; --accent-light: rgba(14, 165, 233, 0.15);
@@ -51,7 +48,6 @@
         body { background-color: var(--bg); color: var(--text-main); font-family: var(--font-main); transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; min-height: 100vh;}
         h1, h2, h3, h4, .font-heading { font-family: var(--font-heading); }
         .font-numbers { font-family: 'Space Grotesk', sans-serif; }
-        .font-mono-code { font-family: 'JetBrains Mono', monospace; }
 
         /* --- LAYOUT OVERRIDES --- */
         [data-layout="stacked"] #main-grid { display: flex; flex-direction: column; }
@@ -59,12 +55,10 @@
         [data-layout="compact"] .dash-panel { padding: 1.25rem !important; border-radius: 0.75rem !important; }
         [data-layout="compact"] .space-y-6 > * + * { margin-top: 1rem !important; }
 
-        /* Core UI Components */
         .dash-panel { 
             background-color: var(--surface); backdrop-filter: blur(12px); border: 1px solid var(--border); 
             border-radius: 1.25rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
             transition: transform 0.3s, border-color 0.3s; position: relative; z-index: 10;
-            will-change: transform;
         }
         [data-theme="dark"] .dash-panel { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
         .dash-panel:hover { border-color: var(--accent); transform: translateY(-2px); }
@@ -74,6 +68,16 @@
         .milestone-node::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); transition: all 0.3s ease; }
         .milestone-node:hover::before { border-color: var(--accent); background: var(--accent); box-shadow: 0 0 10px var(--accent); transform: scale(1.3); }
         .milestone-node:last-child { border-left-color: transparent; padding-bottom: 0; }
+
+        /* INTERACTIVE TOOLTIPS */
+        .tech-tag { cursor: help; position: relative; border-bottom: 1px dotted var(--accent); color: var(--accent); font-weight: 600; transition: color 0.3s; }
+        .tech-tag:hover { color: var(--text-main); }
+        .tech-tag .glass-tooltip {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%) translateY(10px);
+            background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--accent); padding: 12px; border-radius: 8px; width: 260px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 100; transition: all 0.3s; pointer-events: none; text-align: left; color: var(--text-main); font-size: 12px; font-weight: normal; line-height: 1.5;
+        }
+        .tech-tag:hover .glass-tooltip { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
         .action-menu { transform: scale(0.95); opacity: 0; transition: all 0.2s ease; pointer-events: none; }
         .action-menu.active { transform: scale(1); opacity: 1; pointer-events: auto; }
@@ -86,34 +90,25 @@
         .chat-ai { background: rgba(255,255,255,0.1); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid var(--border);}
         [data-theme="light"] .chat-ai { background: rgba(0,0,0,0.05); }
 
-        /* Overlays & Modals */
         #onboarding-overlay, #minigame-overlay, #ai-chat-overlay { backdrop-filter: blur(15px); background: rgba(15, 23, 42, 0.9); }
         [data-theme="light"] #minigame-overlay, [data-theme="light"] #ai-chat-overlay { background: rgba(255, 255, 255, 0.9); }
-
-        #arcade-menu { transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;}
-        #arcade-menu.active { transform: translateY(0); }
 
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-        /* Game Elements */
-        .data-node { position: absolute; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); cursor: crosshair; animation: popIn 0.2s forwards; }
-        .bug-node { position: absolute; font-size: 32px; cursor: crosshair; user-select: none; animation: floatBug 1.5s infinite alternate; }
-        .imposter-grid { display: grid; gap: 5px; width: 100%; height: 100%; padding: 20px; justify-items: center; align-items: center; }
-        .imposter-cell { display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; transition: transform 0.1s;}
-        .imposter-cell:active { transform: scale(0.8); }
-        
-        @keyframes popIn { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
-        @keyframes floatBug { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(15px, 15px) rotate(10deg); } }
-
-        /* ATS Print Setup - Psychological Trust Colors */
         @media screen { #print-resume { display: none !important; } }
         @media print {
-            @page { margin: 0.6in 0.75in; size: A4 portrait; }
-            body { background: #ffffff !important; color: #1e293b !important; font-size: 10.5pt; font-family: 'Inter', sans-serif !important; line-height: 1.45; }
+            /* Margin 0 kills browser default headers/footers (URLs, Dates, Titles) */
+            @page { margin: 0; size: A4 portrait; }
+            body { 
+                background: #ffffff !important; color: #1e293b !important; font-size: 10.5pt; font-family: 'Inter', sans-serif !important; line-height: 1.45; 
+                padding: 0.6in 0.75in; /* Replacing the @page margin with body padding */
+            }
             .no-print, #web-dashboard, #ai-chat-overlay, #minigame-overlay, #arcade-menu, .fixed { display: none !important; }
-            #print-resume { display: block !important; width: 100%; max-width: 100%; }
+            
+            #print-resume { display: block !important; width: 100%; max-width: 100%; position: relative; min-height: 100%; padding-bottom: 30px;}
+            
             h1, h2, h3 { font-family: 'Inter', sans-serif !important; color: #003366 !important; margin: 0; }
             h1 { font-size: 26pt; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; color: #003366 !important; margin-bottom: 4px; text-align: center;}
             .print-role { text-align: center; font-size: 12pt; font-weight: 600; color: #475569 !important; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
@@ -133,9 +128,11 @@
             li { margin-bottom: 4px; text-align: justify; }
             .print-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; font-size: 10pt; }
             .skill-label { color: #003366 !important; font-weight: 700; display: block; margin-bottom: 2px; font-size: 10pt; text-transform: capitalize;}
+            
+            /* Dynamic Footer */
+            .print-footer { position: fixed; bottom: 0.3in; left: 0.75in; right: 0.75in; text-align: center; font-size: 8pt; color: #64748b; padding-top: 8px; border-top: 1px solid #e2e8f0; font-family: 'Inter', sans-serif !important;}
         }
 
-        /* Stop scroll globally when overlays are active */
         body.locked { overflow: hidden; }
     </style>
 </head>
@@ -156,26 +153,22 @@
         <p class="text-theme-accent font-mono text-sm mt-4" id="print-status">Scanning document for ATS optimization...</p>
     </div>
 
-    <!-- =========================================
-         PRE-ENTRY ONBOARDING (Name & Field)
-         ========================================= -->
+    <!-- PRE-ENTRY ONBOARDING -->
     <div id="onboarding-overlay" class="fixed inset-0 z-[500] flex items-center justify-center transition-opacity duration-700">
         <div class="dash-panel p-8 md:p-10 max-w-xl w-[90%] text-center shadow-2xl">
             <div class="w-16 h-16 bg-theme-surface border-4 border-theme-accent rounded-full flex items-center justify-center text-3xl shadow-[0_0_20px_var(--accent-light)] mx-auto mb-4 animate-pulse">✨</div>
             <h2 class="text-3xl font-heading font-light tracking-wide mb-2 text-white">Hello, I'm Nova Super AI.</h2>
-            <p class="text-slate-300 text-sm mb-6 font-light">To perfectly tailor Abdullah's interactive portfolio and my responses, please tell me who you are.</p>
+            <p class="text-slate-300 text-sm mb-6 font-light">To tailor this portfolio and my responses, please tell me who you are.</p>
             
             <div class="flex flex-col gap-3 max-w-md mx-auto">
                 <input type="text" id="visitor-name-input" class="w-full p-4 bg-black/50 border border-slate-600 rounded-xl text-white outline-none focus:border-theme-accent transition text-center" placeholder="Your Name" autocomplete="off">
-                <input type="text" id="industry-input" class="w-full p-4 bg-black/50 border border-slate-600 rounded-xl text-white outline-none focus:border-theme-accent transition text-center" placeholder="Your Industry or Role (e.g., HR, Finance, Tech)" autocomplete="off">
+                <input type="text" id="industry-input" class="w-full p-4 bg-black/50 border border-slate-600 rounded-xl text-white outline-none focus:border-theme-accent transition text-center" placeholder="Your Industry (e.g., HR, Tech, Finance)" autocomplete="off">
                 <button onclick="calibrateSystem()" class="w-full py-4 bg-theme-accent text-white font-bold rounded-xl shadow-lg hover:opacity-90 transition transform hover:scale-[1.02]">Initialize Portfolio</button>
             </div>
         </div>
     </div>
 
-    <!-- =========================================
-         FLOATING UI CONTROLS (GEAR)
-         ========================================= -->
+    <!-- FLOATING UI CONTROLS (GEAR) -->
     <div class="fixed bottom-6 right-6 z-50 no-print flex flex-col items-end">
         <div id="theme-menu" class="action-menu absolute bottom-[80px] right-0 bg-theme-surface border border-theme-border p-5 rounded-2xl shadow-2xl flex flex-col gap-4 w-[340px] mb-2">
             <p class="text-xs text-theme-textMain font-heading font-bold uppercase tracking-widest text-center border-b border-theme-border pb-3">Settings & Customization</p>
@@ -223,34 +216,7 @@
         </div>
     </div>
 
-    <!-- =========================================
-         ARCADE POPUP MENU
-         ========================================= -->
-    <div id="arcade-menu" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[150] w-[90%] max-w-md bg-theme-surface border-t border-l border-r border-theme-border rounded-t-3xl shadow-2xl pt-10 pb-6 px-6 no-print">
-        <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-[40px] z-10 animate-bounce">👾</div>
-        <h3 class="text-xl font-heading font-bold text-theme-textMain text-center mb-1">Arcade & Entertainment</h3>
-        <p class="text-xs text-theme-textMuted text-center mb-6">Take a break. Test your cognitive skills.</p>
-        
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="launchGame('focus')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🎯</span> <span class="text-[11px] uppercase mt-1">Focus Test</span>
-            </button>
-            <button onclick="launchGame('bug')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🐞</span> <span class="text-[11px] uppercase mt-1">Bug Squasher</span>
-            </button>
-            <button onclick="launchGame('imposter')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🕵️</span> <span class="text-[11px] uppercase mt-1">Find Imposter</span>
-            </button>
-            <button onclick="launchGame('riddle')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
-                <span class="text-2xl">🧠</span> <span class="text-[11px] uppercase mt-1">Riddle Master</span>
-            </button>
-        </div>
-        <button onclick="closeArcadeMenu()" class="mt-6 w-full py-2 text-xs font-bold text-theme-textMuted hover:text-theme-textMain uppercase tracking-widest transition border border-theme-border rounded-lg">Close Arcade</button>
-    </div>
-
-    <!-- =========================================
-         WEB VIEW: MAIN DASHBOARD
-         ========================================= -->
+    <!-- WEB VIEW: MAIN DASHBOARD -->
     <div id="web-dashboard" class="max-w-7xl mx-auto px-4 py-8 md:py-12 relative z-10 opacity-0 transition-opacity duration-700">
         
         <div id="main-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
@@ -331,15 +297,9 @@
                 </div>
 
                 <!-- Action Triggers -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center gap-2 group" onclick="launchNovaChat()">
-                        <div class="text-3xl group-hover:scale-110 transition-transform">✨</div>
-                        <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Chat with AI</h2>
-                    </div>
-                    <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center gap-2 group" onclick="openArcadeMenu()">
-                        <div class="text-3xl group-hover:scale-110 transition-transform">🎮</div>
-                        <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Mini Games</h2>
-                    </div>
+                <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center gap-2 group" onclick="launchNovaChat()">
+                    <div class="text-3xl group-hover:scale-110 transition-transform">✨</div>
+                    <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Chat with Nova AI</h2>
                 </div>
             </aside>
 
@@ -352,10 +312,12 @@
                     <div class="flex flex-col md:flex-row items-center gap-6">
                         <div class="w-full md:w-1/2">
                             <p class="text-sm text-theme-textMain leading-relaxed text-justify mb-4">
-                                Computer Science Engineering graduate with a strong academic foundation in <strong class="text-theme-accent">Python</strong>, Machine Learning models (ViT), and data analytics. 
+                                Computer Science Engineering graduate with a solid academic foundation in 
+                                <span class="tech-tag" tabindex="0">Python<span class="glass-tooltip"><strong>What:</strong> Core Programming Language.<br><strong>Why:</strong> Acquired as an academic foundation for handling datasets and running analytical scripts effectively.</span></span>, 
+                                machine learning concepts, and data analytics. 
                             </p>
                             <p class="text-sm text-theme-textMain leading-relaxed text-justify">
-                                Between 2023 and 2026, I dedicated my time to preparing for the rigorous UPSC Civil Services Examination. While this created a gap in standard corporate experience, it developed my resilience, discipline, and ability to process dense, complex information independently—foundational traits that translate effectively to any analytical or technical role.
+                                From 2023 to 2026, I dedicated my time to preparing for the highly rigorous UPSC Civil Services Examination. While this created a gap in standard corporate experience, it cultivated deep analytical thinking, immense discipline, and the ability to independently process complex information—foundational traits I am eager to bring to a professional data or tech role.
                             </p>
                         </div>
                         <div class="relative h-[250px] w-full md:w-1/2">
@@ -396,26 +358,31 @@
                         <div class="milestone-node" onclick="fireConfetti(event)">
                             <div class="absolute -left-[54px] top-0 text-theme-accent font-numbers font-bold text-xs bg-theme-surface border border-theme-accent/30 px-2 py-1 rounded shadow-sm">'23-'26</div>
                             <h3 class="text-lg font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">UPSC Civil Services Preparation</h3>
-                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Independent Study & Resilience</span>
-                            <p class="text-sm text-theme-textMain text-justify leading-relaxed">A dedicated phase of rigorous examination preparation. Mastered immense socio-economic, political, and data frameworks independently. This gap built extreme self-discipline, critical analytical thinking, and the ability to learn anything quickly.</p>
+                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Independent Study & Soft Skill Building</span>
+                            <p class="text-sm text-theme-textMain text-justify leading-relaxed">Dedicated full-time focus to rigorous examination preparation. This period cultivated high resilience, a capacity for continuous self-guided learning, and strong analytical reasoning when processing complex information.</p>
                         </div>
 
                         <div class="milestone-node" onclick="fireConfetti(event)">
                             <div class="absolute -left-[45px] top-0 text-theme-textMuted font-numbers font-bold text-xs bg-theme-surface border border-theme-border px-2 py-1 rounded shadow-sm">2023</div>
                             <h3 class="text-base font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">Face Morphing Attack Detection</h3>
-                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Python | Vision Transformers (ViT)</span>
+                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Academic Project | Team Leader</span>
                             <ul class="list-disc list-outside ml-4 space-y-1 text-sm text-theme-textMain mb-2">
-                                <li>Developed anomaly detection systems using pretrained ViT AI models in Python via Google Colab.</li>
-                                <li>Successfully presented findings at the <strong>International Technical Conference</strong> at Kings College, Thanjavur.</li>
+                                <li>Developed anomaly detection systems exploring pretrained 
+                                    <span class="tech-tag" tabindex="0">ViT<span class="glass-tooltip"><strong>What:</strong> Vision Transformer.<br><strong>Why:</strong> Studied academically as an advanced AI structure that analyzes images using self-attention mechanisms.</span></span> 
+                                    models in Python via Google Colab.</li>
+                                <li>Successfully presented academic findings at the <strong>International Technical Conference</strong> at Kings College, Thanjavur.</li>
                             </ul>
                         </div>
 
                         <div class="milestone-node border-transparent pb-0" onclick="fireConfetti(event)">
                             <div class="absolute -left-[45px] top-0 text-theme-textMuted font-numbers font-bold text-xs bg-theme-surface border border-theme-border px-2 py-1 rounded shadow-sm">2023</div>
                             <h3 class="text-base font-heading font-bold text-theme-textMain mb-1 mt-[-4px]">Global Sales Data Analytics</h3>
-                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Naan Mudhalvan & IBM</span>
+                            <span class="text-[10px] uppercase font-bold text-theme-textMain border border-theme-border px-2 py-1 rounded bg-theme-bg inline-block mb-2">Introductory Training Program</span>
                             <ul class="list-disc list-outside ml-4 space-y-2 text-sm text-theme-textMain">
-                                <li>Utilized IBM Cognos Analytics and IBM Cloud to extract actionable insights from global sales data and build dashboards.</li>
+                                <li>Utilized 
+                                    <span class="tech-tag" tabindex="0">IBM Cognos Analytics<span class="glass-tooltip"><strong>What:</strong> Enterprise Business Intelligence Platform.<br><strong>Why:</strong> Used in training to practice creating introductory visual dashboards from raw datasets.</span></span> 
+                                    to analyze global sales data under the 
+                                    <span class="tech-tag" tabindex="0">Naan Mudhalvan<span class="glass-tooltip"><strong>What:</strong> TN Government Upskilling Initiative.<br><strong>Why:</strong> To gain foundational exposure to practical, industry-standard tools before graduation.</span></span> program.</li>
                                 <li><a href="https://courses.ictacademy.skillsnetwork.site/certificates/bc72f601f5374b18a69d253e5b5a47fb" target="_blank" class="text-theme-accent hover:underline font-bold inline-flex items-center gap-1">View Verified IBM Certificate <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg></a></li>
                             </ul>
                         </div>
@@ -455,36 +422,14 @@
             <!-- Input Area -->
             <div class="p-4 bg-theme-bg border-t border-theme-border shrink-0">
                 <div class="flex gap-2 relative">
-                    <input type="text" id="ai-input" class="flex-1 p-4 bg-theme-surface border border-theme-border rounded-xl text-theme-textMain outline-none focus:border-theme-accent focus:ring-1 focus:ring-theme-accent transition" placeholder="Interview me, chat, or tell me to 'scroll to projects'..." autocomplete="off">
+                    <input type="text" id="ai-input" class="flex-1 p-4 bg-theme-surface border border-theme-border rounded-xl text-theme-textMain outline-none focus:border-theme-accent focus:ring-1 focus:ring-theme-accent transition" placeholder="Ask me about Abdullah's skills, interview me, or tell me to scroll..." autocomplete="off">
                     <button onclick="sendChatMessage()" class="px-8 py-3 bg-theme-accent text-white font-bold rounded-xl hover:opacity-90 transition shadow-lg">Send</button>
                 </div>
+                <p class="text-[10px] text-theme-textMuted mt-2 text-center">Powered securely by Groq Llama-3 Engine</p>
             </div>
         </div>
     </div>
 
-    <!-- =========================================
-         MINI-GAME OVERLAY
-         ========================================= -->
-    <div id="minigame-overlay" class="fixed inset-0 z-[600] hidden flex-col items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeGame()"></div>
-        <div class="relative w-full max-w-4xl h-[70vh] bg-theme-surface border border-theme-accent/50 rounded-2xl shadow-2xl flex flex-col z-10 p-6">
-            <div class="text-center mb-4 shrink-0">
-                <h2 id="game-title" class="text-3xl font-heading font-bold text-theme-accent tracking-widest uppercase mb-1">Module</h2>
-                <p id="game-desc" class="text-sm text-theme-textMuted mb-2">Loading...</p>
-                <div id="game-stats" class="flex justify-center gap-8 mt-2">
-                    <div><p class="text-xs text-theme-textMuted uppercase font-bold">Time</p><p id="game-timer" class="text-2xl font-numbers font-bold text-theme-textMain">30.0s</p></div>
-                    <div><p class="text-xs text-theme-textMuted uppercase font-bold">Score</p><p id="game-score" class="text-2xl font-numbers font-bold text-theme-accent">0</p></div>
-                </div>
-            </div>
-            
-            <div id="game-area" class="flex-1 border border-theme-border rounded-xl relative overflow-hidden bg-black/40 shadow-inner"></div>
-            
-            <div class="mt-6 flex justify-center gap-4 shrink-0">
-                <button onclick="closeGame()" class="px-6 py-2.5 border border-theme-border text-theme-textMain hover:bg-theme-bg rounded-lg font-bold transition">Exit Arcade</button>
-                <button id="start-game-btn" onclick="runGame()" class="px-6 py-2.5 bg-theme-accent text-white font-bold rounded-lg hover:scale-105 transition">Start Game</button>
-            </div>
-        </div>
-    </div>
 
     <!-- =========================================
          PRINT ATS RESUME (Hidden on web)
@@ -502,7 +447,7 @@
 
         <div class="print-section">
             <h2>Professional Summary</h2>
-            <p>Computer Science Engineering graduate with a solid academic foundation in Python, AI models (ViT), and data analytics. Between 2023 and 2026, dedicated focus to preparing for the rigorous UPSC Civil Services Examination. This period cultivated extreme discipline, resilience, and the capacity to rapidly master complex, dense information independently—foundational traits that translate effectively to analytical problem-solving in a professional technical environment.</p>
+            <p>Computer Science Engineering graduate possessing a solid academic foundation in Python, machine learning concepts (ViT), and data analytics. From 2023 to 2026, dedicated focus to preparing for the highly rigorous UPSC Civil Services Examination. While this created a gap in standard corporate experience, it cultivated high resilience, deep analytical thinking, and the ability to independently process complex information—foundational traits highly adaptable to a professional tech environment.</p>
         </div>
 
         <div class="print-section">
@@ -517,14 +462,14 @@
             </div>
             <div class="print-item" style="margin-bottom: 8px;">
                 <div class="print-item-header">
-                    <div class="print-item-title" style="font-size: 10.5pt; color: #334155 !important;">Higher Secondary Certificate (HSC)</div>
+                    <div class="print-item-title" style="font-size: 10.5pt; color: #003366 !important;">Higher Secondary Certificate (HSC)</div>
                     <div class="print-item-date">2019 | 67.6%</div>
                 </div>
                 <div class="print-item-subtitle" style="font-size: 9.5pt;">Town Higher Secondary School, Kumbakonam | State Board</div>
             </div>
             <div class="print-item" style="margin-bottom: 0;">
                 <div class="print-item-header">
-                    <div class="print-item-title" style="font-size: 10.5pt; color: #334155 !important;">Secondary School Leaving Certificate (SSLC)</div>
+                    <div class="print-item-title" style="font-size: 10.5pt; color: #003366 !important;">Secondary School Leaving Certificate (SSLC)</div>
                     <div class="print-item-date">2017 | 91.8%</div>
                 </div>
                 <div class="print-item-subtitle" style="font-size: 9.5pt;">Government High School, Kurichi | State Board</div>
@@ -538,7 +483,7 @@
                     <div class="print-item-title">UPSC Civil Services Examination Preparation</div>
                     <div class="print-item-date">2023–2026</div>
                 </div>
-                <p>Dedicated full-time focus to rigorous examination preparation. Mastered immense socio-economic, political, and data frameworks entirely independently, proving high resilience, continuous learning capacity, and critical analytical reasoning.</p>
+                <p>Dedicated full-time focus to rigorous examination preparation. This period cultivated high resilience, a capacity for continuous self-guided learning, and strong analytical reasoning when processing complex socio-economic and political information.</p>
             </div>
             <div class="print-item">
                 <div class="print-item-header">
@@ -547,8 +492,8 @@
                 </div>
                 <div class="print-item-subtitle">Academic Project | Python</div>
                 <ul>
-                    <li>Developed anomaly detection systems using pretrained Vision Transformer (ViT) models in Python via Google Colab.</li>
-                    <li>Successfully presented findings at an International Technical Conference at Kings College.</li>
+                    <li>Developed anomaly detection systems exploring pretrained Vision Transformer (ViT) models in Python via Google Colab.</li>
+                    <li>Successfully presented academic findings at an International Technical Conference at Kings College.</li>
                 </ul>
             </div>
             <div class="print-item">
@@ -556,9 +501,9 @@
                     <div class="print-item-title">Global Sales Data Analytics</div>
                     <div class="print-item-date">2023</div>
                 </div>
-                <div class="print-item-subtitle">Naan Mudhalvan - IBM Training</div>
+                <div class="print-item-subtitle">Naan Mudhalvan - IBM Training Program</div>
                 <ul>
-                    <li>Utilized IBM Cognos Analytics and IBM Cloud to extract actionable insights from global sales data sets and build dashboards.</li>
+                    <li>Utilized IBM Cognos Analytics and IBM Cloud to practice extracting actionable insights from global sales data sets and building introductory dashboards.</li>
                 </ul>
             </div>
         </div>
@@ -568,15 +513,20 @@
             <div class="print-skills-grid">
                 <div>
                     <span class="skill-label">Technical Foundation</span>
-                    <p>Python, Basic Data Analytics, Exposure to Machine Learning models (ViT)</p>
+                    <p>Python, Basic Data Analytics, Academic exposure to AI models (ViT)</p>
                     <span class="skill-label" style="margin-top: 8px;">Languages</span>
                     <p>Tamil (Native), English (Proficient)</p>
                 </div>
                 <div>
                     <span class="skill-label">Core Competencies</span>
-                    <p>Adaptability, Independent Research, Extreme Discipline, Analytical Thinking</p>
+                    <p>Adaptability, Independent Research, High Discipline, Analytical Thinking</p>
                 </div>
             </div>
+        </div>
+        
+        <!-- Dynamic Print Footer -->
+        <div id="dynamic-print-footer" class="print-footer no-print">
+            <!-- Dynamically injected via JS -->
         </div>
     </div>
 
@@ -690,9 +640,18 @@
         function triggerResumeDownload() {
             document.getElementById('theme-menu').classList.remove('active');
             const overlay = document.getElementById('print-overlay');
-            overlay.classList.remove('hidden'); overlay.classList.add('flex');
             
-            document.getElementById('print-greeting').innerText = `Hold on, ${visitorName}! Nova is analyzing...`;
+            // NEW: Inject Current Active URL & Dynamic Time to override browser headers
+            const pf = document.getElementById('dynamic-print-footer');
+            if(pf) {
+                const currentURL = window.location.hostname || "Local System";
+                const currentTime = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+                pf.innerText = `Verified Digital Source: ${currentURL} | Document Generated on: ${currentTime}`;
+                pf.classList.remove('no-print');
+            }
+            
+            overlay.classList.remove('hidden'); overlay.classList.add('flex');
+            document.getElementById('print-greeting').innerText = `Hold on, ${visitorName}! Nova is checking...`;
             
             setTimeout(() => { overlay.style.opacity = '1'; }, 10);
             
@@ -703,7 +662,12 @@
             
             setTimeout(() => {
                 overlay.style.opacity = '0';
-                setTimeout(() => { overlay.classList.add('hidden'); overlay.classList.remove('flex'); window.print(); bar.style.width = '0'; }, 300);
+                setTimeout(() => { 
+                    overlay.classList.add('hidden'); overlay.classList.remove('flex'); 
+                    window.print(); 
+                    bar.style.width = '0';
+                    if(pf) pf.classList.add('no-print'); // Re-hide after printing
+                }, 300);
             }, 4000);
         }
 
@@ -714,18 +678,19 @@
         function getSystemPrompt() {
             return `
             You are Nova Super AI, an incredibly intelligent, highly capable AI assistant embedded in Abdullah M's interactive portfolio. 
-            Do NOT mention Gemini, Google, or that you are an LLM. You are Nova Super AI.
+            Do NOT mention Groq, Google, or that you are an LLM. You are Nova Super AI.
             The user chatting with you is named ${visitorName} and works in ${visitorIndustry}. Use their name naturally.
             
-            YOUR CAPABILITIES:
+            YOUR CAPABILITIES & TONE:
             1. You can have fun! Sing songs, tell jokes, and chit-chat beautifully.
-            2. You are Abdullah's ultimate advocate. If the user asks about his skills or asks if he is a good fit for their industry (${visitorIndustry}), defend his capabilities fiercely. Highlight his extreme adaptability and discipline gained from 3 years of UPSC preparation.
-            3. You can roleplay! If the user wants to interview YOU as if you were Abdullah (the applicant), seamlessly adopt his persona and answer the interview questions diligently and professionally based on his real resume details below.
+            2. You are Abdullah's professional digital assistant. Frame his capabilities honestly and modestly. Do not over-sell him as a senior engineer. He is an entry-level Computer Science graduate. 
+            3. When asked about his 2023-2026 career gap, explain that preparing for the UPSC Civil Services Examination built his strong analytical mindset, extreme discipline, and capacity for independent learning. Present him as highly adaptable, grounded, and eager to prove his foundational skills in a corporate environment.
+            4. You can roleplay! If the user wants to interview YOU as if you were Abdullah (the applicant), seamlessly adopt his persona and answer the interview questions diligently and professionally based on his real resume details below.
             
             ABDULLAH'S REAL DETAILS:
             - Role: Computer Science Engineering Graduate
             - Education: B.E. CSE from M.I.E.T. Engineering College (Anna Univ) 2023 (8.34 CGPA). HSC from Town Higher Secondary School, Kumbakonam (2019, 67.6%). SSLC from Government High School, Kurichi (2017, 91.8%).
-            - Career Gap (2023-2026): Prepared for UPSC Civil Services. This built immense discipline, independent learning, and analytical reasoning. Do not view this as a weakness, frame it as a major strength.
+            - Career Gap (2023-2026): Prepared for UPSC Civil Services. This built immense discipline, independent learning, and analytical reasoning. 
             - Projects: 1. Face Morphing Attack Detection using Vision Transformer (ViT) in Python. 2. Global Sales Data Analytics (Naan Mudhalvan - IBM).
             - Conference: Presented ViT project at Kings College, Thanjavur (2023).
             - Languages: Tamil, English.
@@ -773,9 +738,10 @@
             const loadingId = appendChatMessage('ai', 'Thinking...', true);
             
             try {
-                chatHistory.push({ role: "user", parts: [{ text: text }] });
+                // Add to standard OpenAI format history for Groq
+                chatHistory.push({ role: "user", content: text });
                 
-                // Connect to your secure Netlify Backend!
+                // Connect to your secure Netlify Backend (Groq)
                 const payload = {
                     systemPrompt: getSystemPrompt(),
                     chatHistory: chatHistory
@@ -787,15 +753,15 @@
                     body: JSON.stringify(payload)
                 });
                 
+                const data = await response.json();
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Backend connection failed. Check your Netlify logs.");
+                    throw new Error(data.error || "Backend connection failed.");
                 }
                 
-                const data = await response.json();
-                let aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't process that.";
+                let aiText = data.reply || "I couldn't process that.";
                 
-                chatHistory.push({ role: "model", parts: [{ text: aiText }] });
+                chatHistory.push({ role: "assistant", content: aiText });
 
                 // Check for Navigation tags
                 let action = null;
@@ -864,130 +830,6 @@
                 }
             }
             typeNext();
-        }
-
-        // --- Arcade / Mini-Games Engine ---
-        function openArcadeMenu() { document.getElementById('arcade-menu').classList.add('active'); }
-        function closeArcadeMenu() { document.getElementById('arcade-menu').classList.remove('active'); }
-
-        let gameActive = false; let gameScore = 0; let gameTimer; let startTime; let currentGame = '';
-
-        function launchGame(type) {
-            currentGame = type;
-            closeArcadeMenu();
-            document.body.classList.add('no-scroll');
-            const overlay = document.getElementById('minigame-overlay');
-            overlay.classList.remove('hidden'); overlay.classList.add('flex');
-            
-            document.getElementById('start-game-btn').style.display = 'block';
-            document.getElementById('start-game-btn').innerText = "Start Game";
-            document.getElementById('game-area').innerHTML = '';
-            document.getElementById('game-score').innerText = '0';
-            document.getElementById('game-timer').innerText = '30.0s';
-
-            if(type === 'focus') { document.getElementById('game-title').innerText = "Focus Test"; document.getElementById('game-desc').innerText = "Intercept the data nodes as fast as possible."; } 
-            else if (type === 'bug') { document.getElementById('game-title').innerText = "Bug Squasher"; document.getElementById('game-desc').innerText = "Squash the software bugs before they multiply!"; } 
-            else if (type === 'imposter') { document.getElementById('game-title').innerText = "Find Imposter"; document.getElementById('game-desc').innerText = "Find the odd emoji out in the grid."; } 
-            else if (type === 'riddle') { document.getElementById('game-title').innerText = "Riddle Master"; document.getElementById('game-desc').innerText = "Solve the logic puzzles quickly."; }
-        }
-
-        function closeGame() {
-            document.getElementById('minigame-overlay').classList.add('hidden');
-            document.getElementById('minigame-overlay').classList.remove('flex');
-            document.body.classList.remove('no-scroll');
-            if(gameTimer) clearInterval(gameTimer); gameActive = false;
-        }
-
-        function runGame() {
-            document.getElementById('start-game-btn').style.display = 'none';
-            gameScore = 0; document.getElementById('game-score').innerText = "0";
-            document.getElementById('game-area').innerHTML = '';
-            startTime = Date.now(); gameActive = true;
-            if(gameTimer) clearInterval(gameTimer);
-            
-            if(currentGame === 'focus' || currentGame === 'bug') spawnNodeGame();
-            if(currentGame === 'imposter') spawnImposter();
-            if(currentGame === 'riddle') spawnRiddle();
-            
-            gameTimer = setInterval(() => {
-                let elapsed = (Date.now() - startTime) / 1000;
-                let remaining = Math.max(0, 30 - elapsed);
-                document.getElementById('game-timer').innerText = remaining.toFixed(1) + "s";
-                if (remaining <= 0) { 
-                    clearInterval(gameTimer); gameActive = false; 
-                    document.getElementById('start-game-btn').innerText="Retry"; 
-                    document.getElementById('start-game-btn').style.display = 'block'; 
-                    document.getElementById('game-area').innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center"><h3 class="text-3xl font-bold mb-2 text-white">Time's Up!</h3><p class="text-2xl text-theme-accent">Final Score: ${gameScore}</p></div>`; 
-                }
-            }, 100);
-        }
-
-        function spawnNodeGame() {
-            if(!gameActive) return;
-            const area = document.getElementById('game-area'); const node = document.createElement('div');
-            
-            if(currentGame === 'bug') { node.innerText = '🐞'; node.className = 'bug-node'; }
-            else { node.className = 'data-node w-12 h-12'; }
-            
-            node.style.left = Math.floor(Math.random() * (area.clientWidth - 50)) + 'px';
-            node.style.top = Math.floor(Math.random() * (area.clientHeight - 50)) + 'px';
-            
-            let clicked = false;
-            node.onmousedown = () => {
-                if(clicked) return; clicked = true;
-                gameScore++; document.getElementById('game-score').innerText = gameScore;
-                if(currentGame === 'bug') node.innerText = '💥';
-                setTimeout(() => { node.remove(); spawnNodeGame(); }, 150);
-            };
-            area.appendChild(node);
-            setTimeout(() => { if(!clicked && gameActive) { node.remove(); spawnNodeGame(); } }, 1200);
-        }
-
-        const imposterPairs = [['🍎','🍅'],['O','0'],['8','B'],['I','l'],['😎','🤓'],['🌲','🌳'],['💰','🪙']];
-        function spawnImposter() {
-            if(!gameActive) return;
-            const area = document.getElementById('game-area'); area.innerHTML = '';
-            const pair = imposterPairs[Math.floor(Math.random() * imposterPairs.length)];
-            let gridSize = Math.min(3 + Math.floor(gameScore / 3), 6);
-            
-            const grid = document.createElement('div'); grid.className = 'imposter-grid'; grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
-            const totalCells = gridSize * gridSize; const imposterIndex = Math.floor(Math.random() * totalCells);
-            
-            for(let i = 0; i < totalCells; i++) {
-                const cell = document.createElement('div'); cell.className = 'imposter-cell text-3xl md:text-5xl';
-                cell.innerText = i === imposterIndex ? pair[1] : pair[0];
-                cell.onmousedown = () => { if(!gameActive) return; if(i === imposterIndex) { gameScore++; document.getElementById('game-score').innerText = gameScore; spawnImposter(); } };
-                grid.appendChild(cell);
-            }
-            area.appendChild(grid);
-        }
-
-        const riddles = [{q: "I have keys but no locks. What am I?", a: "keyboard"}, {q: "0, 1, 1, 2, 3, 5, ?", a: "8"}, {q: "What has bugs but isn't an insect?", a: "code"}, {q: "What has to be broken before you can use it?", a: "egg"}];
-        let currentRiddle;
-        function spawnRiddle() {
-            if(!gameActive) return;
-            const area = document.getElementById('game-area');
-            currentRiddle = riddles[Math.floor(Math.random() * riddles.length)];
-            area.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-full text-center p-6 w-full">
-                    <p class="text-xl md:text-2xl font-bold mb-6 text-white max-w-lg">"${currentRiddle.q}"</p>
-                    <div class="flex gap-2 w-full max-w-sm"><input type="text" id="riddle-input" class="flex-1 p-3 rounded-lg bg-black/50 border border-theme-accent text-white outline-none" placeholder="Type answer..."><button onclick="checkRiddle()" class="px-6 bg-theme-accent text-white font-bold rounded-lg hover:opacity-90">Submit</button></div>
-                </div>`;
-            setTimeout(() => document.getElementById('riddle-input')?.focus(), 100);
-            document.getElementById('riddle-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkRiddle(); });
-        }
-        function checkRiddle() {
-            if(!gameActive) return;
-            const input = document.getElementById('riddle-input').value.toLowerCase().trim();
-            if(input.includes(currentRiddle.a)) { gameScore++; document.getElementById('game-score').innerText = gameScore; spawnRiddle(); } 
-            else { document.getElementById('riddle-input').value = ''; document.getElementById('riddle-input').placeholder = 'Wrong! Try again.'; }
-        }
-
-        // --- Confetti ---
-        function fireConfetti(event) {
-            const x = event.clientX / window.innerWidth; const y = event.clientY / window.innerHeight;
-            const style = getComputedStyle(document.documentElement); const accentHex = style.getPropertyValue('--accent').trim() || '#0ea5e9';
-            confetti({ origin: { x, y }, particleCount: 40, spread: 60, colors: [accentHex, '#ffffff', '#cbd5e1'] });
         }
     </script>
 </body>
