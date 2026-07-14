@@ -114,25 +114,25 @@
             body { background: #ffffff !important; color: #1e293b !important; font-size: 10.5pt; font-family: 'Inter', sans-serif !important; line-height: 1.45; }
             .no-print, #web-dashboard, #ai-chat-overlay, #minigame-overlay, #arcade-menu, .fixed { display: none !important; }
             #print-resume { display: block !important; width: 100%; max-width: 100%; }
-            h1, h2, h3 { font-family: 'Inter', sans-serif !important; color: #0f172a !important; margin: 0; }
-            h1 { font-size: 26pt; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; color: #0f172a !important; margin-bottom: 4px; text-align: center;}
+            h1, h2, h3 { font-family: 'Inter', sans-serif !important; color: #003366 !important; margin: 0; }
+            h1 { font-size: 26pt; font-weight: 800; letter-spacing: -0.5px; text-transform: uppercase; color: #003366 !important; margin-bottom: 4px; text-align: center;}
             .print-role { text-align: center; font-size: 12pt; font-weight: 600; color: #475569 !important; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
-            .print-contact { display: flex; justify-content: center; gap: 16px; font-size: 9.5pt; color: #334155 !important; border-bottom: 3px solid #0f172a; padding-bottom: 14px; margin-bottom: 18px;}
+            .print-contact { display: flex; justify-content: center; gap: 16px; font-size: 9.5pt; color: #334155 !important; border-bottom: 3px solid #003366; padding-bottom: 14px; margin-bottom: 18px;}
             .print-contact span { display: flex; align-items: center; }
-            .print-contact span::after { content: '•'; color: #0f172a; margin-left: 16px; font-weight: 900; }
+            .print-contact span::after { content: '•'; color: #003366; margin-left: 16px; font-weight: 900; }
             .print-contact span:last-child::after { display: none; }
             .print-section { margin-bottom: 18px; break-inside: avoid; }
-            .print-section h2 { font-size: 11pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #0f172a !important; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 10px; }
+            .print-section h2 { font-size: 11pt; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #003366 !important; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 10px; }
             .print-item { margin-bottom: 12px; break-inside: avoid; }
             .print-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
             .print-item-title { font-size: 10.5pt; font-weight: 700; color: #0f172a !important; }
-            .print-item-date { font-size: 9.5pt; font-weight: 600; color: #0f172a !important; }
+            .print-item-date { font-size: 9.5pt; font-weight: 600; color: #003366 !important; }
             .print-item-subtitle { font-size: 10pt; font-weight: 500; color: #475569 !important; margin-bottom: 4px; font-style: italic;}
             p { margin-bottom: 6px; text-align: justify; }
             ul { padding-left: 1.25rem; margin-top: 4px; margin-bottom: 0; list-style-type: square; }
             li { margin-bottom: 4px; text-align: justify; }
             .print-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; font-size: 10pt; }
-            .skill-label { color: #0f172a !important; font-weight: 700; display: block; margin-bottom: 2px; font-size: 10pt; text-transform: capitalize;}
+            .skill-label { color: #003366 !important; font-weight: 700; display: block; margin-bottom: 2px; font-size: 10pt; text-transform: capitalize;}
         }
 
         /* Stop scroll globally when overlays are active */
@@ -569,6 +569,8 @@
                 <div>
                     <span class="skill-label">Technical Foundation</span>
                     <p>Python, Basic Data Analytics, Exposure to Machine Learning models (ViT)</p>
+                    <span class="skill-label" style="margin-top: 8px;">Languages</span>
+                    <p>Tamil (Native), English (Proficient)</p>
                 </div>
                 <div>
                     <span class="skill-label">Core Competencies</span>
@@ -690,18 +692,19 @@
             const overlay = document.getElementById('print-overlay');
             overlay.classList.remove('hidden'); overlay.classList.add('flex');
             
-            document.getElementById('print-greeting').innerText = `Hold on, ${visitorName}! Nova is checking...`;
+            document.getElementById('print-greeting').innerText = `Hold on, ${visitorName}! Nova is analyzing...`;
             
             setTimeout(() => { overlay.style.opacity = '1'; }, 10);
             
             const bar = document.getElementById('print-progress-bar');
-            setTimeout(() => { bar.style.width = '50%'; document.getElementById('print-status').innerText = "Double-checking formatting for ATS optimization..."; }, 500);
-            setTimeout(() => { bar.style.width = '100%'; document.getElementById('print-status').innerText = "Applying corporate trust colors. Ready for download!"; }, 2000);
+            setTimeout(() => { bar.style.width = '30%'; document.getElementById('print-status').innerText = "Scanning document for ATS formatting errors..."; }, 500);
+            setTimeout(() => { bar.style.width = '60%'; document.getElementById('print-status').innerText = "Errors corrected. Embedding Languages & Corporate Trust Colors..."; }, 1500);
+            setTimeout(() => { bar.style.width = '100%'; document.getElementById('print-status').innerText = "Corporate psychology optimization complete. Ready!"; }, 2800);
             
             setTimeout(() => {
                 overlay.style.opacity = '0';
                 setTimeout(() => { overlay.classList.add('hidden'); overlay.classList.remove('flex'); window.print(); bar.style.width = '0'; }, 300);
-            }, 3500);
+            }, 4000);
         }
 
         // --- NOVA SUPER AI CHAT ---
