@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth antialiased" data-theme="dark" data-color="sky" data-layout="split">
+<html lang="en" class="scroll-smooth antialiased" data-theme="dark" data-color="sky" data-font="sans" data-layout="split">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,10 @@
             --bg: #0f172a; --surface: rgba(30, 41, 59, 0.75); --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8;
             --accent: #0ea5e9; --accent-light: rgba(14, 165, 233, 0.15);
             --font-main: 'Inter', sans-serif; --font-heading: 'Outfit', sans-serif;
+            --base-size: 16px; /* Dynamic Font Size Variable */
         }
+
+        html { font-size: var(--base-size); transition: font-size 0.3s ease; }
 
         /* --- COLORS --- */
         [data-color="sky"] { --accent: #0ea5e9; --accent-light: rgba(14, 165, 233, 0.15); }
@@ -38,7 +41,7 @@
 
         /* --- LIGHT/DARK MODE --- */
         [data-theme="light"] { --bg: #f8fafc; --surface: rgba(255, 255, 255, 0.85); --border: #e2e8f0; --text-main: #0f172a; --text-muted: #475569; }
-        [data-theme="dark"] { --bg: #0f172a; --surface: rgba(30, 41, 59, 0.85); --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8; }
+        [data-theme="dark"] { --bg: #0f172a; --surface: rgba(30, 41, 59, 0.75); --border: #334155; --text-main: #f8fafc; --text-muted: #94a3b8; }
 
         /* --- TYPOGRAPHY --- */
         [data-font="sans"] { --font-main: 'Inter', sans-serif; --font-heading: 'Outfit', sans-serif; }
@@ -90,8 +93,22 @@
         .chat-ai { background: rgba(255,255,255,0.1); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid var(--border);}
         [data-theme="light"] .chat-ai { background: rgba(0,0,0,0.05); }
 
+        /* Arcade Menu */
+        #arcade-menu { transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;}
+        #arcade-menu.active { transform: translateY(0); }
+
         #onboarding-overlay, #minigame-overlay, #ai-chat-overlay { backdrop-filter: blur(15px); background: rgba(15, 23, 42, 0.9); }
         [data-theme="light"] #minigame-overlay, [data-theme="light"] #ai-chat-overlay { background: rgba(255, 255, 255, 0.9); }
+
+        /* Game Elements */
+        .data-node { position: absolute; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); cursor: crosshair; animation: popIn 0.2s forwards; }
+        .bug-node { position: absolute; font-size: 32px; cursor: crosshair; user-select: none; animation: floatBug 1.5s infinite alternate; }
+        .imposter-grid { display: grid; gap: 5px; width: 100%; height: 100%; padding: 20px; justify-items: center; align-items: center; }
+        .imposter-cell { display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; transition: transform 0.1s;}
+        .imposter-cell:active { transform: scale(0.8); }
+        
+        @keyframes popIn { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        @keyframes floatBug { 0% { transform: translate(0, 0) rotate(0deg); } 100% { transform: translate(15px, 15px) rotate(10deg); } }
 
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -170,7 +187,7 @@
 
     <!-- FLOATING UI CONTROLS (GEAR) -->
     <div class="fixed bottom-6 right-6 z-50 no-print flex flex-col items-end">
-        <div id="theme-menu" class="action-menu absolute bottom-[80px] right-0 bg-theme-surface border border-theme-border p-5 rounded-2xl shadow-2xl flex flex-col gap-4 w-[340px] mb-2">
+        <div id="theme-menu" class="action-menu absolute bottom-[80px] right-0 bg-theme-surface border border-theme-border p-5 rounded-2xl shadow-2xl flex flex-col gap-4 w-[340px] mb-2 max-h-[75vh] overflow-y-auto custom-scrollbar">
             <p class="text-xs text-theme-textMain font-heading font-bold uppercase tracking-widest text-center border-b border-theme-border pb-3">Settings & Customization</p>
             
             <!-- Colors -->
@@ -199,6 +216,16 @@
                 </div>
             </div>
 
+            <!-- Font Size Scaler -->
+            <div class="space-y-2 mt-2">
+                <p class="text-[10px] text-theme-textMuted uppercase font-bold border-b border-theme-border pb-1">Text Size</p>
+                <div class="flex gap-2">
+                    <button onclick="setFontSize('14px')" class="flex-1 p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Small</button>
+                    <button onclick="setFontSize('16px')" class="flex-1 p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Normal</button>
+                    <button onclick="setFontSize('18px')" class="flex-1 p-2 bg-theme-bg rounded border border-transparent hover:border-theme-accent text-[11px] font-bold text-theme-textMain">Large</button>
+                </div>
+            </div>
+
             <!-- Mode -->
             <div class="flex justify-between items-center bg-theme-bg p-3 rounded-lg border border-theme-border mt-2 cursor-pointer hover:border-theme-accent transition" onclick="toggleThemeMode()">
                 <span class="text-[11px] font-bold uppercase tracking-wider text-theme-textMain">Background Mode</span>
@@ -214,6 +241,29 @@
                 Download Resume
             </button>
         </div>
+    </div>
+
+    <!-- ARCADE POPUP MENU -->
+    <div id="arcade-menu" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-[150] w-[90%] max-w-md bg-theme-surface border-t border-l border-r border-theme-border rounded-t-3xl shadow-2xl pt-10 pb-6 px-6 no-print">
+        <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-[40px] z-10 animate-bounce">👾</div>
+        <h3 class="text-xl font-heading font-bold text-theme-textMain text-center mb-1">Arcade & Entertainment</h3>
+        <p class="text-xs text-theme-textMuted text-center mb-6">Take a break. Test your cognitive skills.</p>
+        
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="launchGame('focus')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
+                <span class="text-2xl">🎯</span> <span class="text-[11px] uppercase mt-1">Focus Test</span>
+            </button>
+            <button onclick="launchGame('bug')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
+                <span class="text-2xl">🐞</span> <span class="text-[11px] uppercase mt-1">Bug Squasher</span>
+            </button>
+            <button onclick="launchGame('imposter')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
+                <span class="text-2xl">🕵️</span> <span class="text-[11px] uppercase mt-1">Find Imposter</span>
+            </button>
+            <button onclick="launchGame('riddle')" class="py-3 bg-theme-bg border border-theme-accent/30 text-theme-accent hover:bg-theme-accent hover:text-white font-bold rounded-xl transition-all flex flex-col items-center gap-1 shadow-sm">
+                <span class="text-2xl">🧠</span> <span class="text-[11px] uppercase mt-1">Riddle Master</span>
+            </button>
+        </div>
+        <button onclick="closeArcadeMenu()" class="mt-6 w-full py-2 text-xs font-bold text-theme-textMuted hover:text-theme-textMain uppercase tracking-widest transition border border-theme-border rounded-lg">Close Arcade</button>
     </div>
 
     <!-- WEB VIEW: MAIN DASHBOARD -->
@@ -297,9 +347,15 @@
                 </div>
 
                 <!-- Action Triggers -->
-                <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center gap-2 group" onclick="launchNovaChat()">
-                    <div class="text-3xl group-hover:scale-110 transition-transform">✨</div>
-                    <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Chat with Nova AI</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center justify-center gap-2 group" onclick="launchNovaChat()">
+                        <div class="text-3xl group-hover:scale-110 transition-transform">✨</div>
+                        <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Chat with Nova AI</h2>
+                    </div>
+                    <div class="dash-panel p-4 border-theme-accent/50 bg-theme-accentLight/10 cursor-pointer hover:bg-theme-accent transition flex flex-col items-center text-center justify-center gap-2 group" onclick="openArcadeMenu()">
+                        <div class="text-3xl group-hover:scale-110 transition-transform">🎮</div>
+                        <h2 class="text-xs font-bold text-theme-textMain group-hover:text-white uppercase tracking-widest">Mini Games</h2>
+                    </div>
                 </div>
             </aside>
 
@@ -317,7 +373,7 @@
                                 machine learning concepts, and data analytics. 
                             </p>
                             <p class="text-sm text-theme-textMain leading-relaxed text-justify">
-                                From 2023 to 2026, I dedicated my time to preparing for the highly rigorous UPSC Civil Services Examination. While this created a gap in standard corporate experience, it cultivated deep analytical thinking, immense discipline, and the ability to independently process complex information—foundational traits I am eager to bring to a professional data or tech role.
+                                From 2023 to 2026, I dedicated my time to preparing for the highly rigorous UPSC Civil Services Examination. While this created a gap in standard corporate experience, it cultivated deep analytical thinking, immense discipline, and the ability to independently process complex information—foundational traits I am eager to bring to a professional tech role.
                             </p>
                         </div>
                         <div class="relative h-[250px] w-full md:w-1/2">
@@ -430,6 +486,29 @@
         </div>
     </div>
 
+    <!-- =========================================
+         MINI-GAME OVERLAY
+         ========================================= -->
+    <div id="minigame-overlay" class="fixed inset-0 z-[600] hidden flex-col items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeGame()"></div>
+        <div class="relative w-full max-w-4xl h-[70vh] bg-theme-surface border border-theme-accent/50 rounded-2xl shadow-2xl flex flex-col z-10 p-6">
+            <div class="text-center mb-4 shrink-0">
+                <h2 id="game-title" class="text-3xl font-heading font-bold text-theme-accent tracking-widest uppercase mb-1">Module</h2>
+                <p id="game-desc" class="text-sm text-theme-textMuted mb-2">Loading...</p>
+                <div id="game-stats" class="flex justify-center gap-8 mt-2">
+                    <div><p class="text-xs text-theme-textMuted uppercase font-bold">Time</p><p id="game-timer" class="text-2xl font-numbers font-bold text-theme-textMain">30.0s</p></div>
+                    <div><p class="text-xs text-theme-textMuted uppercase font-bold">Score</p><p id="game-score" class="text-2xl font-numbers font-bold text-theme-accent">0</p></div>
+                </div>
+            </div>
+            
+            <div id="game-area" class="flex-1 border border-theme-border rounded-xl relative overflow-hidden bg-black/40 shadow-inner"></div>
+            
+            <div class="mt-6 flex justify-center gap-4 shrink-0">
+                <button onclick="closeGame()" class="px-6 py-2.5 border border-theme-border text-theme-textMain hover:bg-theme-bg rounded-lg font-bold transition">Exit Arcade</button>
+                <button id="start-game-btn" onclick="runGame()" class="px-6 py-2.5 bg-theme-accent text-white font-bold rounded-lg hover:scale-105 transition">Start Game</button>
+            </div>
+        </div>
+    </div>
 
     <!-- =========================================
          PRINT ATS RESUME (Hidden on web)
@@ -569,6 +648,10 @@
             document.documentElement.setAttribute('data-layout', layout);
             setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
         }
+        function setFontSize(size) {
+            document.documentElement.style.setProperty('--base-size', size);
+            if(radarChart) { radarChart.update(); }
+        }
 
         function toggleActionMenu(event, menuId) {
             event.stopPropagation();
@@ -641,12 +724,12 @@
             document.getElementById('theme-menu').classList.remove('active');
             const overlay = document.getElementById('print-overlay');
             
-            // NEW: Inject Current Active URL & Dynamic Time to override browser headers
+            // Inject Current Active URL & Dynamic Time to override browser headers
             const pf = document.getElementById('dynamic-print-footer');
             if(pf) {
-                const currentURL = window.location.hostname || "Local System";
+                const currentURL = window.location.href; // Captures exact url e.g. abdullahmcv.netlify.app
                 const currentTime = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
-                pf.innerText = `Verified Digital Source: ${currentURL} | Document Generated on: ${currentTime}`;
+                pf.innerHTML = `Verified Digital Source: <strong>${currentURL}</strong> | Generated on: ${currentTime}`;
                 pf.classList.remove('no-print');
             }
             
@@ -830,6 +913,130 @@
                 }
             }
             typeNext();
+        }
+
+        // --- Arcade / Mini-Games Engine ---
+        function openArcadeMenu() { document.getElementById('arcade-menu').classList.add('active'); }
+        function closeArcadeMenu() { document.getElementById('arcade-menu').classList.remove('active'); }
+
+        let gameActive = false; let gameScore = 0; let gameTimer; let startTime; let currentGame = '';
+
+        function launchGame(type) {
+            currentGame = type;
+            closeArcadeMenu();
+            document.body.classList.add('no-scroll');
+            const overlay = document.getElementById('minigame-overlay');
+            overlay.classList.remove('hidden'); overlay.classList.add('flex');
+            
+            document.getElementById('start-game-btn').style.display = 'block';
+            document.getElementById('start-game-btn').innerText = "Start Game";
+            document.getElementById('game-area').innerHTML = '';
+            document.getElementById('game-score').innerText = '0';
+            document.getElementById('game-timer').innerText = '30.0s';
+
+            if(type === 'focus') { document.getElementById('game-title').innerText = "Focus Test"; document.getElementById('game-desc').innerText = "Intercept the data nodes as fast as possible."; } 
+            else if (type === 'bug') { document.getElementById('game-title').innerText = "Bug Squasher"; document.getElementById('game-desc').innerText = "Squash the software bugs before they multiply!"; } 
+            else if (type === 'imposter') { document.getElementById('game-title').innerText = "Find Imposter"; document.getElementById('game-desc').innerText = "Find the odd emoji out in the grid."; } 
+            else if (type === 'riddle') { document.getElementById('game-title').innerText = "Riddle Master"; document.getElementById('game-desc').innerText = "Solve the logic puzzles quickly."; }
+        }
+
+        function closeGame() {
+            document.getElementById('minigame-overlay').classList.add('hidden');
+            document.getElementById('minigame-overlay').classList.remove('flex');
+            document.body.classList.remove('no-scroll');
+            if(gameTimer) clearInterval(gameTimer); gameActive = false;
+        }
+
+        function runGame() {
+            document.getElementById('start-game-btn').style.display = 'none';
+            gameScore = 0; document.getElementById('game-score').innerText = "0";
+            document.getElementById('game-area').innerHTML = '';
+            startTime = Date.now(); gameActive = true;
+            if(gameTimer) clearInterval(gameTimer);
+            
+            if(currentGame === 'focus' || currentGame === 'bug') spawnNodeGame();
+            if(currentGame === 'imposter') spawnImposter();
+            if(currentGame === 'riddle') spawnRiddle();
+            
+            gameTimer = setInterval(() => {
+                let elapsed = (Date.now() - startTime) / 1000;
+                let remaining = Math.max(0, 30 - elapsed);
+                document.getElementById('game-timer').innerText = remaining.toFixed(1) + "s";
+                if (remaining <= 0) { 
+                    clearInterval(gameTimer); gameActive = false; 
+                    document.getElementById('start-game-btn').innerText="Retry"; 
+                    document.getElementById('start-game-btn').style.display = 'block'; 
+                    document.getElementById('game-area').innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center"><h3 class="text-3xl font-bold mb-2 text-white">Time's Up!</h3><p class="text-2xl text-theme-accent">Final Score: ${gameScore}</p></div>`; 
+                }
+            }, 100);
+        }
+
+        function spawnNodeGame() {
+            if(!gameActive) return;
+            const area = document.getElementById('game-area'); const node = document.createElement('div');
+            
+            if(currentGame === 'bug') { node.innerText = '🐞'; node.className = 'bug-node'; }
+            else { node.className = 'data-node w-12 h-12'; }
+            
+            node.style.left = Math.floor(Math.random() * (area.clientWidth - 50)) + 'px';
+            node.style.top = Math.floor(Math.random() * (area.clientHeight - 50)) + 'px';
+            
+            let clicked = false;
+            node.onmousedown = () => {
+                if(clicked) return; clicked = true;
+                gameScore++; document.getElementById('game-score').innerText = gameScore;
+                if(currentGame === 'bug') node.innerText = '💥';
+                setTimeout(() => { node.remove(); spawnNodeGame(); }, 150);
+            };
+            area.appendChild(node);
+            setTimeout(() => { if(!clicked && gameActive) { node.remove(); spawnNodeGame(); } }, 1200);
+        }
+
+        const imposterPairs = [['🍎','🍅'],['O','0'],['8','B'],['I','l'],['😎','🤓'],['🌲','🌳'],['💰','🪙']];
+        function spawnImposter() {
+            if(!gameActive) return;
+            const area = document.getElementById('game-area'); area.innerHTML = '';
+            const pair = imposterPairs[Math.floor(Math.random() * imposterPairs.length)];
+            let gridSize = Math.min(3 + Math.floor(gameScore / 3), 6);
+            
+            const grid = document.createElement('div'); grid.className = 'imposter-grid'; grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+            const totalCells = gridSize * gridSize; const imposterIndex = Math.floor(Math.random() * totalCells);
+            
+            for(let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div'); cell.className = 'imposter-cell text-3xl md:text-5xl';
+                cell.innerText = i === imposterIndex ? pair[1] : pair[0];
+                cell.onmousedown = () => { if(!gameActive) return; if(i === imposterIndex) { gameScore++; document.getElementById('game-score').innerText = gameScore; spawnImposter(); } };
+                grid.appendChild(cell);
+            }
+            area.appendChild(grid);
+        }
+
+        const riddles = [{q: "I have keys but no locks. What am I?", a: "keyboard"}, {q: "0, 1, 1, 2, 3, 5, ?", a: "8"}, {q: "What has bugs but isn't an insect?", a: "code"}, {q: "What has to be broken before you can use it?", a: "egg"}];
+        let currentRiddle;
+        function spawnRiddle() {
+            if(!gameActive) return;
+            const area = document.getElementById('game-area');
+            currentRiddle = riddles[Math.floor(Math.random() * riddles.length)];
+            area.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-center p-6 w-full">
+                    <p class="text-xl md:text-2xl font-bold mb-6 text-white max-w-lg">"${currentRiddle.q}"</p>
+                    <div class="flex gap-2 w-full max-w-sm"><input type="text" id="riddle-input" class="flex-1 p-3 rounded-lg bg-black/50 border border-theme-accent text-white outline-none" placeholder="Type answer..."><button onclick="checkRiddle()" class="px-6 bg-theme-accent text-white font-bold rounded-lg hover:opacity-90">Submit</button></div>
+                </div>`;
+            setTimeout(() => document.getElementById('riddle-input')?.focus(), 100);
+            document.getElementById('riddle-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') checkRiddle(); });
+        }
+        function checkRiddle() {
+            if(!gameActive) return;
+            const input = document.getElementById('riddle-input').value.toLowerCase().trim();
+            if(input.includes(currentRiddle.a)) { gameScore++; document.getElementById('game-score').innerText = gameScore; spawnRiddle(); } 
+            else { document.getElementById('riddle-input').value = ''; document.getElementById('riddle-input').placeholder = 'Wrong! Try again.'; }
+        }
+
+        // --- Confetti ---
+        function fireConfetti(event) {
+            const x = event.clientX / window.innerWidth; const y = event.clientY / window.innerHeight;
+            const style = getComputedStyle(document.documentElement); const accentHex = style.getPropertyValue('--accent').trim() || '#0ea5e9';
+            confetti({ origin: { x, y }, particleCount: 40, spread: 60, colors: [accentHex, '#ffffff', '#cbd5e1'] });
         }
     </script>
 </body>
